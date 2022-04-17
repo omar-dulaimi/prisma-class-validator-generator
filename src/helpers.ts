@@ -52,6 +52,10 @@ export const getTSDataTypeFromFieldType = (field: PrismaDMMF.Field) => {
     case 'Decimal':
       type = 'Prisma.Decimal';
       break;
+    default:
+      if (field.isList) {
+        type = `${field.type}[]`;
+      }
   }
   return type;
 };
