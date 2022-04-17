@@ -31,7 +31,7 @@ export const generateModelsIndexFile = (
 };
 
 export const shouldImportPrisma = (fields: PrismaDMMF.Field[]) => {
-  return fields.some((field) => ['Decimal'].includes(field.type));
+  return fields.some((field) => ['Decimal', 'Json'].includes(field.type));
 };
 
 export const getTSDataTypeFromFieldType = (field: PrismaDMMF.Field) => {
@@ -51,6 +51,9 @@ export const getTSDataTypeFromFieldType = (field: PrismaDMMF.Field) => {
       break;
     case 'Decimal':
       type = 'Prisma.Decimal';
+      break;
+    case 'Json':
+      type = 'Prisma.JsonValue';
       break;
     default:
       if (field.isList) {
