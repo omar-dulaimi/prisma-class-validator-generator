@@ -4,7 +4,6 @@ generator client {
 
 generator class_validator {
   provider = "node ./lib/generator.js"
-  output   = "./generated"
 }
 
 datasource db {

@@ -1,8 +1,11 @@
 import { DMMF as PrismaDMMF } from '@prisma/client/runtime';
 import { parseEnvValue } from '@prisma/sdk';
 import { EnvValue, GeneratorOptions } from '@prisma/generator-helper';
-import removeDir from './utils/removeDir';
 import { promises as fs } from 'fs';
+import removeDir from './utils/removeDir';
+import generateClass from './generate-class';
+import { generateModelsIndexFile } from './helpers';
+import { project } from './project';
 
 export async function generate(options: GeneratorOptions) {
   const outputDir = parseEnvValue(options.generator.output as EnvValue);
@@ -17,4 +20,11 @@ export async function generate(options: GeneratorOptions) {
   );
   const prismaClientDmmf = (await import(prismaClientPath))
     .dmmf as PrismaDMMF.Document;
+
+  prismaClientDmmf.datamodel.models.forEach((model) =>
+    generateClass(project, outputDir, model),
+  );
+
+  generateModelsIndexFile(prismaClientDmmf, project, outputDir);
+  await project.save();
 }
