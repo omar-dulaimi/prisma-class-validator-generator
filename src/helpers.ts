@@ -91,6 +91,10 @@ export const getDecoratorsByFieldType = (field: PrismaDMMF.Field) => {
     decorators.unshift({
       name: 'IsDefined()',
     });
+  } else {
+    decorators.unshift({
+      name: 'IsOptional()',
+    });
   }
   return decorators;
 };
@@ -113,6 +117,8 @@ export const getDecoratorsImportsByType = (field: PrismaDMMF.Field) => {
   }
   if (field.isRequired) {
     validatorImports.add('IsDefined');
+  } else {
+    validatorImports.add('IsOptional');
   }
   return [...validatorImports];
 };
