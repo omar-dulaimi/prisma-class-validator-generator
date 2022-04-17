@@ -34,6 +34,10 @@ export const shouldImportPrisma = (fields: PrismaDMMF.Field[]) => {
   return fields.some((field) => ['Decimal', 'Json'].includes(field.type));
 };
 
+export const shouldImportHelpers = (fields: PrismaDMMF.Field[]) => {
+  return fields.some((field) => ['enum'].includes(field.kind));
+};
+
 export const getTSDataTypeFromFieldType = (field: PrismaDMMF.Field) => {
   let type = field.type;
   switch (field.type) {
@@ -68,32 +72,44 @@ export const getDecoratorsByFieldType = (field: PrismaDMMF.Field) => {
   switch (field.type) {
     case 'Int':
       decorators.push({
-        name: 'IsInt()',
+        name: 'IsInt',
+        arguments: [],
       });
       break;
     case 'DateTime':
       decorators.push({
-        name: 'IsDate()',
+        name: 'IsDate',
+        arguments: [],
       });
       break;
     case 'String':
       decorators.push({
-        name: 'IsString()',
+        name: 'IsString',
+        arguments: [],
       });
       break;
     case 'Boolean':
       decorators.push({
-        name: 'IsBoolean()',
+        name: 'IsBoolean',
+        arguments: [],
       });
       break;
   }
   if (field.isRequired) {
     decorators.unshift({
-      name: 'IsDefined()',
+      name: 'IsDefined',
+      arguments: [],
     });
   } else {
     decorators.unshift({
-      name: 'IsOptional()',
+      name: 'IsOptional',
+      arguments: [],
+    });
+  }
+  if (field.kind === 'enum') {
+    decorators.push({
+      name: 'IsIn',
+      arguments: [`getEnumValues(${String(field.type)})`],
     });
   }
   return decorators;
@@ -119,6 +135,9 @@ export const getDecoratorsImportsByType = (field: PrismaDMMF.Field) => {
     validatorImports.add('IsDefined');
   } else {
     validatorImports.add('IsOptional');
+  }
+  if (field.kind === 'enum') {
+    validatorImports.add('IsIn');
   }
   return [...validatorImports];
 };
@@ -147,6 +166,15 @@ export const generateRelationImportsImport = (
   sourceFile.addImportDeclaration({
     moduleSpecifier: './',
     namedImports: relationImports,
+  });
+};
+export const generateHelpersImports = (
+  sourceFile: SourceFile,
+  helpersImports: Array<string>,
+) => {
+  sourceFile.addImportDeclaration({
+    moduleSpecifier: '../helpers',
+    namedImports: helpersImports,
   });
 };
 
