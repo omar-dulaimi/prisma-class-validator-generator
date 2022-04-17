@@ -1,7 +1,7 @@
 import { PropertyDeclarationStructure, OptionalKind, Project } from 'ts-morph';
 import path from 'path';
 import { DMMF as PrismaDMMF } from '@prisma/client/runtime';
-import { generatePrismaImport } from './helpers';
+import { generatePrismaImport, generateEnumImports } from './helpers';
 import {
   generateClassValidatorImport,
   generateRelationImportsImport,
@@ -45,6 +45,8 @@ export default async function generateClass(
   generateRelationImportsImport(sourceFile, [
     ...relationImports,
   ] as Array<string>);
+
+  generateEnumImports(sourceFile, model.fields);
 
   sourceFile.addClass({
     name: model.name,

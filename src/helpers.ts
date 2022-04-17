@@ -140,3 +140,31 @@ export const generateRelationImportsImport = (
     namedImports: relationImports,
   });
 };
+
+export const generateEnumImports = (
+  sourceFile: SourceFile,
+  fields: PrismaDMMF.Field[],
+) => {
+  const enumsToImport = fields
+    .filter((field) => field.kind === 'enum')
+    .map((field) => field.type);
+
+  if (enumsToImport.length > 0) {
+    sourceFile.addImportDeclaration({
+      moduleSpecifier: '../enums',
+      namedImports: enumsToImport,
+    });
+  }
+};
+
+export function generateEnumsIndexFile(
+  sourceFile: SourceFile,
+  enumNames: string[],
+) {
+  sourceFile.addExportDeclarations(
+    enumNames.sort().map<OptionalKind<ExportDeclarationStructure>>((name) => ({
+      moduleSpecifier: `./${name}.enum`,
+      namedExports: [name],
+    })),
+  );
+}
