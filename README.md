@@ -66,7 +66,6 @@ will generate the following files
 
 ![Typescript models with class validator](https://raw.githubusercontent.com/omar-dulaimi/prisma-class-validator-generator/master/classValidatorModels.png)
 
-````
 
 ## Additional Options
 
