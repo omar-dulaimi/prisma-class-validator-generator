@@ -30,6 +30,10 @@ export const generateModelsIndexFile = (
   );
 };
 
+export const shouldImportPrisma = (fields: PrismaDMMF.Field[]) => {
+  return fields.some((field) => ['Decimal'].includes(field.type));
+};
+
 export const getTSDataTypeFromFieldType = (field: PrismaDMMF.Field) => {
   let type = field.type;
   switch (field.type) {
@@ -44,6 +48,9 @@ export const getTSDataTypeFromFieldType = (field: PrismaDMMF.Field) => {
       break;
     case 'Boolean':
       type = 'boolean';
+      break;
+    case 'Decimal':
+      type = 'Prisma.Decimal';
       break;
   }
   return type;
@@ -110,6 +117,13 @@ export const generateClassValidatorImport = (
   sourceFile.addImportDeclaration({
     moduleSpecifier: 'class-validator',
     namedImports: validatorImports,
+  });
+};
+
+export const generatePrismaImport = (sourceFile: SourceFile) => {
+  sourceFile.addImportDeclaration({
+    moduleSpecifier: '@prisma/client',
+    namedImports: ['Prisma'],
   });
 };
 

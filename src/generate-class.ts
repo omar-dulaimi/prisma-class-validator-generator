@@ -1,12 +1,14 @@
 import { PropertyDeclarationStructure, OptionalKind, Project } from 'ts-morph';
 import path from 'path';
 import { DMMF as PrismaDMMF } from '@prisma/client/runtime';
+import { generatePrismaImport } from './helpers';
 import {
   generateClassValidatorImport,
   generateRelationImportsImport,
   getDecoratorsByFieldType,
   getDecoratorsImportsByType,
   getTSDataTypeFromFieldType,
+  shouldImportPrisma,
 } from './helpers';
 
 export default async function generateClass(
@@ -27,6 +29,10 @@ export default async function generateClass(
         .flatMap((item) => item),
     ),
   ];
+
+  if (shouldImportPrisma(model.fields)) {
+    generatePrismaImport(sourceFile);
+  }
 
   generateClassValidatorImport(sourceFile, validatorImports as Array<string>);
   const relationImports = new Set();
