@@ -42,6 +42,7 @@ export const getTSDataTypeFromFieldType = (field: PrismaDMMF.Field) => {
   let type = field.type;
   switch (field.type) {
     case 'Int':
+    case 'Float':
       type = 'number';
       break;
     case 'DateTime':
@@ -71,7 +72,6 @@ export const getDecoratorsByFieldType = (field: PrismaDMMF.Field) => {
   const decorators: OptionalKind<DecoratorStructure>[] = [];
   switch (field.type) {
     case 'Int':
-    case 'Float':
       decorators.push({
         name: 'IsInt',
         arguments: [],
@@ -120,7 +120,6 @@ export const getDecoratorsImportsByType = (field: PrismaDMMF.Field) => {
   const validatorImports = new Set();
   switch (field.type) {
     case 'Int':
-    case 'Float':
       validatorImports.add('IsInt');
       break;
     case 'DateTime':
