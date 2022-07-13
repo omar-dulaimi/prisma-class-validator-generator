@@ -15,9 +15,22 @@ Automatically generate typescript models of your database with class validator v
 
 ## Table of Contents
 
+- [Supported Prisma Versions](#supported-prisma-versions)
 - [Installation](#installing)
 - [Usage](#usage)
 - [Additional Options](#additional-options)
+
+# Supported Prisma Versions
+
+Probably no breaking changes for this library, so try newer versions first.
+
+### Prisma 4
+
+- 0.2.0 and higher
+
+### Prisma 2/3
+
+- 0.1.1 and lower
 
 ## Installation
 
@@ -73,13 +86,11 @@ will generate the following files
 
 ![Typescript models with class validator](https://raw.githubusercontent.com/omar-dulaimi/prisma-class-validator-generator/master/classValidatorModels.png)
 
-
 ## Additional Options
 
-| Option                |  Description                                    | Type      |  Default      |
-| --------------------- | ----------------------------------------------- | --------- | ------------- |
-| `output`              | Output directory for the generated models       | `string`  | `./generated` |
-
+| Option   |  Description                              | Type     |  Default      |
+| -------- | ----------------------------------------- | -------- | ------------- |
+| `output` | Output directory for the generated models | `string` | `./generated` |
 
 Use additional options in the `schema.prisma`
 
@@ -88,4 +99,4 @@ generator class_validator {
   provider   = "prisma-class-validator-generator"
   output     = "./generated-models"
 }
-````
+```
