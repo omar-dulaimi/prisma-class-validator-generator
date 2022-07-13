@@ -42,6 +42,7 @@ export const getTSDataTypeFromFieldType = (field: PrismaDMMF.Field) => {
   let type = field.type;
   switch (field.type) {
     case 'Int':
+    case 'Float':
       type = 'number';
       break;
     case 'DateTime':

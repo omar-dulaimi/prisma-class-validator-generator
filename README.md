@@ -65,6 +65,7 @@ model Post {
   viewCount Int      @default(0)
   author    User?    @relation(fields: [authorId], references: [id])
   authorId  Int?
+  rating    Float
 }
 ```
 
