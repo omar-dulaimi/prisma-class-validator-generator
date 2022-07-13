@@ -1,4 +1,4 @@
-import { DMMF as PrismaDMMF } from '@prisma/client/runtime';
+import type { DMMF as PrismaDMMF } from '@prisma/generator-helper';
 import { EnumMemberStructure, OptionalKind, Project } from 'ts-morph';
 import path from 'path';
 
