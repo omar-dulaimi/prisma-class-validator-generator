@@ -86,6 +86,31 @@ will generate the following files
 
 ![Typescript models with class validator](https://raw.githubusercontent.com/omar-dulaimi/prisma-class-validator-generator/master/classValidatorModels.png)
 
+Inside `User` model:
+
+```ts
+import { IsInt, IsDefined, IsString, IsOptional } from "class-validator";
+import { Post } from "./";
+
+export class User {
+    @IsDefined()
+    @IsInt()
+    id!: number;
+
+    @IsDefined()
+    @IsString()
+    email!: string;
+
+    @IsOptional()
+    @IsString()
+    name?: string;
+
+    @IsDefined()
+    posts!: Post[];
+}
+
+```
+
 ## Additional Options
 
 | Option   |  Description                              | Type     |  Default      |
