@@ -20,6 +20,7 @@ export default async function generateClass(
   project: Project,
   outputDir: string,
   model: PrismaDMMF.Model,
+  dmmf: PrismaDMMF.Document,
 ) {
   const dirPath = path.resolve(outputDir, 'models');
   const filePath = path.resolve(dirPath, `${model.name}.model.ts`);
@@ -56,6 +57,22 @@ export default async function generateClass(
   }
 
   generateEnumImports(sourceFile, model.fields);
+
+  const outputObjectType: PrismaDMMF.OutputType  = dmmf.schema.outputObjectTypes.model.find(outputObjectModel => outputObjectModel.name === model.name);
+
+  const countIndex = outputObjectType.fields.findIndex((field: PrismaDMMF.SchemaField) => field.name === "_count");
+
+  if (countIndex > -1) {
+    const {location, namespace, type} = outputObjectType.fields[countIndex].outputType;
+    if (location=== "outputObjectTypes") {
+      const outputObjectTypes = dmmf.schema[location][namespace];
+      const outputObjectIndex = outputObjectTypes.findIndex((elem: PrismaDMMF.OutputType) => elem.name === type)
+      if (outputObjectIndex > -1) {
+        const baseObject = {name: "_count", kind: "object", isReadOnly: true, isRequired: true, type: "object", isUnique: false, isList: false, isId: false, hasDefaultValue: false} as PrismaDMMF.Field;
+        model.fields.push(baseObject)
+      } 
+  }
+}
 
   sourceFile.addClass({
     name: model.name,

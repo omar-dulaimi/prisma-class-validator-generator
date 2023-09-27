@@ -1,6 +1,6 @@
 {
-  "name": "prisma-class-validator-generator",
-  "version": "0.2.0",
+  "name": "howdygo-prisma-class-validator-generator",
+  "version": "0.3.0",
   "description": "Prisma 2+ generator to emit typescript models of your database with class validator",
   "repository": "https://github.com/omar-dulaimi/prisma-class-validator-generator",
   "bin": {
@@ -24,10 +24,10 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@prisma/client": "^4.0.0",
-    "@prisma/generator-helper": "^4.0.0",
-    "@prisma/internals": "^4.0.0",
-    "class-validator": "^0.13.2",
+    "@prisma/client": "^5.0.0",
+    "@prisma/generator-helper": "^5.0.0",
+    "@prisma/internals": "^5.0.0",
+    "class-validator": "^0.14.0",
     "pluralize": "^8.0.0",
     "prettier": "^2.7.1",
     "ts-morph": "^15.1.0",
@@ -37,7 +37,7 @@
     "@types/node": "^18.0.3",
     "@types/pluralize": "0.0.29",
     "@types/prettier": "^2.6.3",
-    "prisma": "^4.0.0",
+    "prisma": "^5.0.0",
     "typescript": "^4.7.4"
   },
   "bugs": {
