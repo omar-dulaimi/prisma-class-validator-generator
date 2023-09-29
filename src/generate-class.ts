@@ -60,19 +60,43 @@ export default async function generateClass(
 
   const outputObjectType: PrismaDMMF.OutputType  = dmmf.schema.outputObjectTypes.model.find(outputObjectModel => outputObjectModel.name === model.name);
 
+  // Hacky work around to produce a typed _count value in the output models
   const countIndex = outputObjectType.fields.findIndex((field: PrismaDMMF.SchemaField) => field.name === "_count");
-
   if (countIndex > -1) {
     const {location, namespace, type} = outputObjectType.fields[countIndex].outputType;
     if (location=== "outputObjectTypes") {
       const outputObjectTypes = dmmf.schema[location][namespace];
       const outputObjectIndex = outputObjectTypes.findIndex((elem: PrismaDMMF.OutputType) => elem.name === type)
       if (outputObjectIndex > -1) {
-        const baseObject = {name: "_count", kind: "object", isReadOnly: true, isRequired: true, type: "object", isUnique: false, isList: false, isId: false, hasDefaultValue: false} as PrismaDMMF.Field;
+        const targetModules = outputObjectType.fields.filter(field => field && field.outputType.namespace  === 'model');
+
+        const countOutput: any = {} as object;
+        targetModules.forEach(module => countOutput[module.name] = 'number');
+
+        let countTs = `{\r\n`;
+        for (const module of targetModules) {
+          if (module.outputType && module.outputType.namespace === 'model') {
+            countTs += `${module.name}: number;\n`;
+          }
+        }
+        countTs += `}`;
+        
+        const baseObject = {
+          name: '_count',
+          kind: 'object',
+          isReadOnly: true,
+          isRequired: true,
+          type: countTs,
+          isUnique: false,
+          isList: false,
+          isId: false,
+          hasDefaultValue: false,
+        } as PrismaDMMF.Field;
         model.fields.push(baseObject)
       } 
+    }
   }
-}
+  // end hacky workaround
 
   sourceFile.addClass({
     name: model.name,
