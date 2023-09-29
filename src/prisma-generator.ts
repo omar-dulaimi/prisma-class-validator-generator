@@ -39,7 +39,7 @@ export async function generate(options: GeneratorOptions) {
   }
 
   prismaClientDmmf.datamodel.models.forEach((model) =>
-    generateClass(project, outputDir, model),
+    generateClass(project, outputDir, model, prismaClientDmmf),
   );
 
   const helpersIndexSourceFile = project.createSourceFile(
