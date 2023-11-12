@@ -60,10 +60,9 @@ export const getTSDataTypeFromFieldType = (field: PrismaDMMF.Field) => {
     case 'Json':
       type = 'Prisma.JsonValue';
       break;
-    default:
-      if (field.isList) {
-        type = `${field.type}[]`;
-      }
+  }
+  if (field.isList) {
+      type = `${type}[]`;
   }
   return type;
 };
