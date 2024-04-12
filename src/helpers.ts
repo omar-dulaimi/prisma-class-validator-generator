@@ -1,11 +1,11 @@
 import type { DMMF as PrismaDMMF } from '@prisma/generator-helper';
 import path from 'path';
 import {
+  DecoratorStructure,
   ExportDeclarationStructure,
   OptionalKind,
-  SourceFile,
-  DecoratorStructure,
   Project,
+  SourceFile,
 } from 'ts-morph';
 
 export const generateModelsIndexFile = (
@@ -64,8 +64,9 @@ export const getTSDataTypeFromFieldType = (field: PrismaDMMF.Field) => {
       type = 'Buffer';
       break;
   }
+
   if (field.isList) {
-      type = `${type}[]`;
+    type = `${type}[]`;
   }
   return type;
 };
