@@ -24,6 +24,12 @@ Automatically generate typescript models of your database with class validator v
 
 Probably no breaking changes for this library, so try newer versions first.
 
+Note: Starting from Prisma v5, library versions will match Prisma versions.
+
+### Prisma 5
+
+- 5.0.0 and higher
+
 ### Prisma 4
 
 - 0.2.0 and higher
