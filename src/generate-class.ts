@@ -18,7 +18,6 @@ export default async function generateClass(
   project: Project,
   outputDir: string,
   model: PrismaDMMF.Model,
-  dmmf: PrismaDMMF.Document,
 ) {
   const dirPath = path.resolve(outputDir, 'models');
   const filePath = path.resolve(dirPath, `${model.name}.model.ts`);
