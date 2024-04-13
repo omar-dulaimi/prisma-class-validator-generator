@@ -1,13 +1,13 @@
-import { parseEnvValue, getDMMF } from '@prisma/internals';
 import { EnvValue, GeneratorOptions } from '@prisma/generator-helper';
+import { getDMMF, parseEnvValue } from '@prisma/internals';
 import { promises as fs } from 'fs';
 import path from 'path';
-import removeDir from './utils/removeDir';
 import generateClass from './generate-class';
-import { generateEnumsIndexFile, generateModelsIndexFile } from './helpers';
-import { project } from './project';
 import generateEnum from './generate-enum';
 import { generateHelpersIndexFile } from './generate-helpers';
+import { generateEnumsIndexFile, generateModelsIndexFile } from './helpers';
+import { project } from './project';
+import removeDir from './utils/removeDir';
 
 export async function generate(options: GeneratorOptions) {
   const outputDir = parseEnvValue(options.generator.output as EnvValue);
@@ -39,7 +39,7 @@ export async function generate(options: GeneratorOptions) {
   }
 
   prismaClientDmmf.datamodel.models.forEach((model) =>
-    generateClass(project, outputDir, model),
+    generateClass(project, outputDir, model, prismaClientDmmf),
   );
 
   const helpersIndexSourceFile = project.createSourceFile(

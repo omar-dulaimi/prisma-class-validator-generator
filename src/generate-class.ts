@@ -1,18 +1,16 @@
-import { PropertyDeclarationStructure, OptionalKind, Project } from 'ts-morph';
-import path from 'path';
 import type { DMMF as PrismaDMMF } from '@prisma/generator-helper';
-import {
-  generatePrismaImport,
-  generateEnumImports,
-  generateHelpersImports,
-  shouldImportHelpers,
-} from './helpers';
+import path from 'path';
+import { OptionalKind, Project, PropertyDeclarationStructure } from 'ts-morph';
 import {
   generateClassValidatorImport,
+  generateEnumImports,
+  generateHelpersImports,
+  generatePrismaImport,
   generateRelationImportsImport,
   getDecoratorsByFieldType,
   getDecoratorsImportsByType,
   getTSDataTypeFromFieldType,
+  shouldImportHelpers,
   shouldImportPrisma,
 } from './helpers';
 
@@ -20,6 +18,7 @@ export default async function generateClass(
   project: Project,
   outputDir: string,
   model: PrismaDMMF.Model,
+  dmmf: PrismaDMMF.Document,
 ) {
   const dirPath = path.resolve(outputDir, 'models');
   const filePath = path.resolve(dirPath, `${model.name}.model.ts`);
@@ -35,7 +34,7 @@ export default async function generateClass(
     ),
   ];
 
-  if (shouldImportPrisma(model.fields)) {
+  if (shouldImportPrisma(model.fields as PrismaDMMF.Field[])) {
     generatePrismaImport(sourceFile);
   }
 
@@ -51,11 +50,11 @@ export default async function generateClass(
     ...relationImports,
   ] as Array<string>);
 
-  if (shouldImportHelpers(model.fields)) {
+  if (shouldImportHelpers(model.fields as PrismaDMMF.Field[])) {
     generateHelpersImports(sourceFile, ['getEnumValues']);
   }
 
-  generateEnumImports(sourceFile, model.fields);
+  generateEnumImports(sourceFile, model.fields as PrismaDMMF.Field[]);
 
   sourceFile.addClass({
     name: model.name,
