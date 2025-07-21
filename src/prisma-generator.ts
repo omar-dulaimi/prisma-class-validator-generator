@@ -9,8 +9,21 @@ import { generateEnumsIndexFile, generateModelsIndexFile } from './helpers';
 import { project } from './project';
 import removeDir from './utils/removeDir';
 
+export interface GeneratorConfig {
+  outputDir: string;
+  swagger: boolean;
+  separateRelationFields: boolean;
+}
+
 export async function generate(options: GeneratorOptions) {
   const outputDir = parseEnvValue(options.generator.output as EnvValue);
+
+  const config: GeneratorConfig = {
+    outputDir,
+    swagger: options.generator.config?.swagger === 'true',
+    separateRelationFields:
+      options.generator.config?.separateRelationFields === 'true',
+  };
   await fs.mkdir(outputDir, { recursive: true });
   await removeDir(outputDir, true);
 
@@ -39,7 +52,7 @@ export async function generate(options: GeneratorOptions) {
   }
 
   prismaClientDmmf.datamodel.models.forEach((model) =>
-    generateClass(project, outputDir, model),
+    generateClass(project, config, model),
   );
 
   const helpersIndexSourceFile = project.createSourceFile(
