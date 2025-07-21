@@ -20,28 +20,36 @@ describe('Basic Class Validator Generation', () => {
     await execAsync(`npx prisma generate --schema="${schemaPath}"`);
 
     // Check if generated files exist
-    expect(existsSync(path.join(outputPath, 'models', 'User.model.ts'))).toBe(true);
-    expect(existsSync(path.join(outputPath, 'models', 'Post.model.ts'))).toBe(true);
+    expect(existsSync(path.join(outputPath, 'models', 'User.model.ts'))).toBe(
+      true,
+    );
+    expect(existsSync(path.join(outputPath, 'models', 'Post.model.ts'))).toBe(
+      true,
+    );
     expect(existsSync(path.join(outputPath, 'models', 'index.ts'))).toBe(true);
     expect(existsSync(path.join(outputPath, 'helpers', 'index.ts'))).toBe(true);
   }, 30000);
 
   it('should generate User model with correct validators', async () => {
     const outputPath = path.resolve(__dirname, 'generated/basic');
-    
+
     // Import and check the generated User model
-    const { User } = await import(path.join(outputPath, 'models', 'User.model.ts'));
-    
+    const { User } = await import(
+      path.join(outputPath, 'models', 'User.model.ts')
+    );
+
     expect(User).toBeDefined();
     expect(typeof User).toBe('function');
   });
 
   it('should generate Post model with correct validators', async () => {
     const outputPath = path.resolve(__dirname, 'generated/basic');
-    
+
     // Import and check the generated Post model
-    const { Post } = await import(path.join(outputPath, 'models', 'Post.model.ts'));
-    
+    const { Post } = await import(
+      path.join(outputPath, 'models', 'Post.model.ts')
+    );
+
     expect(Post).toBeDefined();
     expect(typeof Post).toBe('function');
   });
