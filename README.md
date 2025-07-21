@@ -33,7 +33,7 @@ If this tool helps you build better applications, please consider supporting its
 
 Your sponsorship helps maintain and improve this project. Thank you! 🙏
 
-## 🧪 Beta Testing - v6.0.0-beta
+## 🧪 Beta Testing - v6.0.0-beta.1
 
 **Try the latest beta with enhanced Prisma 6 support!**
 
@@ -137,12 +137,12 @@ if (errors.length > 0) {
 
 | Prisma Version | Generator Version | Maintained |
 |----------------|-------------------|------------|
-| **v6.x** | **v6.0.0-beta** | ✅ **Active** |
+| **v6.x** | **v6.0.0-beta.1** | ✅ **Active** |
 | v5.x | v5.0.0 | ❌ No |
 | v4.x | v0.2.0 - v4.x | ❌ No |
 | v2-3.x | v0.1.x | ❌ No |
 
-### 🧪 Beta Release - v6.0.0-beta
+### 🧪 Beta Release - v6.0.0-beta.1
 
 **Currently in development!** This version brings full Prisma 6 compatibility:
 
@@ -175,7 +175,7 @@ export class User {
 
     @IsOptional()
     @IsString()
-    name?: string;
+    name?: string | null;
 
     @IsDefined()
     posts!: Post[];
@@ -206,7 +206,7 @@ export class Post {
 
     @IsOptional()
     @IsString()
-    content?: string;
+    content?: string | null;
 
     @IsDefined()
     @IsBoolean()
@@ -217,11 +217,11 @@ export class Post {
     viewCount!: number;
 
     @IsOptional()
-    author?: User;
+    author?: User | null;
 
     @IsOptional()
     @IsInt()
-    authorId?: number;
+    authorId?: number | null;
 
     @IsDefined()
     @IsNumber()
@@ -319,14 +319,14 @@ export class User {
 
     @IsOptional()
     @IsString()
-    name?: string;
+    name?: string | null;
 
     @IsDefined()
     @IsEnum(Role)
     role!: Role;
 
     @IsOptional()
-    profile?: Profile;
+    profile?: Profile | null;
 
     @IsDefined()
     posts!: Post[];
@@ -374,7 +374,7 @@ The generator intelligently maps Prisma types to class-validator decorators:
 | `Json` | `any` | `@IsDefined()` |
 | `String[]` | `string[]` | `@IsArray()` |
 | `Enum` | `EnumType` | `@IsEnum(EnumType)` |
-| Optional fields | `type \| undefined` | `@IsOptional()` |
+| Optional fields | `type \| null` | `@IsOptional()` |
 | Required fields | `type` | `@IsDefined()` |
 
 ## 🤝 Contributing
