@@ -33,6 +33,24 @@ If this tool helps you build better applications, please consider supporting its
 
 Your sponsorship helps maintain and improve this project. Thank you! 🙏
 
+## 🧪 Beta Testing - v6.0.0-beta
+
+**Try the latest beta with enhanced Prisma 6 support!**
+
+```bash
+npm install prisma-class-validator-generator@beta
+```
+
+This beta includes **major upgrades for Prisma 6.x compatibility** - bringing full support for the latest Prisma features including proper Uint8Array handling for Bytes fields and modern Node.js requirements. 
+
+**What to test:**
+- ✅ Prisma 6.12+ schema generation
+- ✅ Uint8Array support for Bytes fields  
+- ✅ Complex schemas with enums and relations
+- ✅ TypeScript 5.8+ compatibility
+
+Please test in development and [report any issues](https://github.com/omar-dulaimi/prisma-class-validator-generator/issues). Your feedback helps us deliver a stable v6.0.0 release!
+
 ## ✨ Features
 
 - 🏗️ **Auto-generation** - Automatically generates TypeScript models with class-validator decorators
