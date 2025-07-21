@@ -56,8 +56,13 @@ function generateSingleClass(
   generateClassValidatorImport(sourceFile, validatorImports as Array<string>);
 
   // Add Swagger imports if enabled
-  if (config.swagger && shouldImportSwagger(model.fields as PrismaDMMF.Field[])) {
-    const swaggerImports = getSwaggerImportsByType(model.fields as PrismaDMMF.Field[]);
+  if (
+    config.swagger &&
+    shouldImportSwagger(model.fields as PrismaDMMF.Field[])
+  ) {
+    const swaggerImports = getSwaggerImportsByType(
+      model.fields as PrismaDMMF.Field[],
+    );
     generateSwaggerImport(sourceFile, swaggerImports);
   }
   const relationImports = new Set();
@@ -105,15 +110,15 @@ function generateSeparateRelationClasses(
   // Separate base fields from relation fields
   const baseFields = model.fields.filter((field) => !field.relationName);
   const relationFields = model.fields.filter((field) => field.relationName);
-  
+
   // Generate base class (without relations)
   generateBaseClass(project, config, model, baseFields);
-  
+
   // Generate relation class (only relations)
   if (relationFields.length > 0) {
     generateRelationClass(project, config, model, relationFields);
   }
-  
+
   // Generate combined class that extends base and includes relations
   generateCombinedClass(project, config, model, baseFields, relationFields);
 }
@@ -146,7 +151,9 @@ function generateBaseClass(
 
   // Add Swagger imports if enabled
   if (config.swagger && shouldImportSwagger(fields as PrismaDMMF.Field[])) {
-    const swaggerImports = getSwaggerImportsByType(fields as PrismaDMMF.Field[]);
+    const swaggerImports = getSwaggerImportsByType(
+      fields as PrismaDMMF.Field[],
+    );
     generateSwaggerImport(sourceFile, swaggerImports);
   }
 
@@ -160,18 +167,16 @@ function generateBaseClass(
     name: `${model.name}Base`,
     isExported: true,
     properties: [
-      ...fields.map<OptionalKind<PropertyDeclarationStructure>>(
-        (field) => {
-          return {
-            name: field.name,
-            type: getTSDataTypeFromFieldType(field),
-            hasExclamationToken: field.isRequired,
-            hasQuestionToken: !field.isRequired,
-            trailingTrivia: '\r\n',
-            decorators: getDecoratorsByFieldType(field, config.swagger),
-          };
-        },
-      ),
+      ...fields.map<OptionalKind<PropertyDeclarationStructure>>((field) => {
+        return {
+          name: field.name,
+          type: getTSDataTypeFromFieldType(field),
+          hasExclamationToken: field.isRequired,
+          hasQuestionToken: !field.isRequired,
+          trailingTrivia: '\r\n',
+          decorators: getDecoratorsByFieldType(field, config.swagger),
+        };
+      }),
     ],
   });
 }
@@ -199,8 +204,13 @@ function generateRelationClass(
   generateClassValidatorImport(sourceFile, validatorImports as Array<string>);
 
   // Add Swagger imports if enabled
-  if (config.swagger && shouldImportSwagger(relationFields as PrismaDMMF.Field[])) {
-    const swaggerImports = getSwaggerImportsByType(relationFields as PrismaDMMF.Field[]);
+  if (
+    config.swagger &&
+    shouldImportSwagger(relationFields as PrismaDMMF.Field[])
+  ) {
+    const swaggerImports = getSwaggerImportsByType(
+      relationFields as PrismaDMMF.Field[],
+    );
     generateSwaggerImport(sourceFile, swaggerImports);
   }
 

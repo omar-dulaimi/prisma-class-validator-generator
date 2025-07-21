@@ -17,11 +17,12 @@ export interface GeneratorConfig {
 
 export async function generate(options: GeneratorOptions) {
   const outputDir = parseEnvValue(options.generator.output as EnvValue);
-  
+
   const config: GeneratorConfig = {
     outputDir,
     swagger: options.generator.config?.swagger === 'true',
-    separateRelationFields: options.generator.config?.separateRelationFields === 'true',
+    separateRelationFields:
+      options.generator.config?.separateRelationFields === 'true',
   };
   await fs.mkdir(outputDir, { recursive: true });
   await removeDir(outputDir, true);

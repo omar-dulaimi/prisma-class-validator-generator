@@ -68,18 +68,21 @@ export const getTSDataTypeFromFieldType = (field: PrismaDMMF.Field) => {
   if (field.isList) {
     type = `${type}[]`;
   }
-  
+
   // Add null union for optional fields to match Prisma client behavior
   if (!field.isRequired) {
     type = `${type} | null`;
   }
-  
+
   return type;
 };
 
-export const getDecoratorsByFieldType = (field: PrismaDMMF.Field, includeSwagger: boolean = false) => {
+export const getDecoratorsByFieldType = (
+  field: PrismaDMMF.Field,
+  includeSwagger: boolean = false,
+) => {
   const decorators: OptionalKind<DecoratorStructure>[] = [];
-  
+
   // Add Swagger decorators first if enabled
   if (includeSwagger) {
     const swaggerDecorator = getSwaggerDecoratorByFieldType(field);
@@ -87,7 +90,7 @@ export const getDecoratorsByFieldType = (field: PrismaDMMF.Field, includeSwagger
       decorators.push(swaggerDecorator);
     }
   }
-  
+
   // Add class-validator decorators
   switch (field.type) {
     case 'Int':
@@ -143,7 +146,7 @@ export const getDecoratorsByFieldType = (field: PrismaDMMF.Field, includeSwagger
 
 export const getSwaggerDecoratorByFieldType = (field: PrismaDMMF.Field) => {
   const args: string[] = [];
-  
+
   // Base properties
   if (field.hasDefaultValue && field.default !== null) {
     if (typeof field.default === 'object' && 'name' in field.default) {
@@ -153,7 +156,7 @@ export const getSwaggerDecoratorByFieldType = (field: PrismaDMMF.Field) => {
       args.push(`example: ${JSON.stringify(field.default)}`);
     }
   }
-  
+
   // Type-specific properties
   switch (field.type) {
     case 'Int':
@@ -181,22 +184,22 @@ export const getSwaggerDecoratorByFieldType = (field: PrismaDMMF.Field) => {
       args.push('type: "string"', 'format: "byte"');
       break;
   }
-  
+
   // Array handling
   if (field.isList) {
     args.push('isArray: true');
   }
-  
+
   // Required/optional
   if (!field.isRequired) {
     args.push('required: false');
   }
-  
+
   // Enum handling
   if (field.kind === 'enum') {
     args.push(`enum: Object.values(${field.type})`);
   }
-  
+
   return {
     name: 'ApiProperty',
     arguments: args.length > 0 ? [`{ ${args.join(', ')} }`] : [],
