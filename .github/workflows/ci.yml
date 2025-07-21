@@ -41,9 +41,8 @@ jobs:
       
     - name: Test with example schemas
       run: |
-        cd tests
-        npx prisma generate --schema=schemas/basic.prisma
-        npx prisma generate --schema=schemas/comprehensive.prisma
+        npx prisma generate --schema=tests/schemas/basic.prisma
+        npx prisma generate --schema=tests/schemas/comprehensive.prisma
       
   package-test:
     runs-on: ubuntu-latest
