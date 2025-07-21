@@ -135,12 +135,12 @@ if (errors.length > 0) {
 
 ## 📋 Version Compatibility
 
-| Prisma Version | Generator Version | Status |
-|----------------|-------------------|--------|
-| **v6.x** | **v6.0.0-beta** | 🧪 **Beta** |
-| v5.x | v5.0.0 | ✅ Stable |
-| v4.x | v0.2.0 - v4.x | ⚠️ Legacy |
-| v2-3.x | v0.1.x | ❌ Deprecated |
+| Prisma Version | Generator Version | Maintained |
+|----------------|-------------------|------------|
+| **v6.x** | **v6.0.0-beta** | ✅ **Active** |
+| v5.x | v5.0.0 | ❌ No |
+| v4.x | v0.2.0 - v4.x | ❌ No |
+| v2-3.x | v0.1.x | ❌ No |
 
 ### 🧪 Beta Release - v6.0.0-beta
 
