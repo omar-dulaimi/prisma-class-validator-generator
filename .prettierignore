@@ -1,2 +1,7 @@
 lib/**/*
 package/**/*
+node_modules/
+prisma/generated/
+tests/generated/
+*.md
+*.json

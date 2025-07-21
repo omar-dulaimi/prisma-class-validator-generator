@@ -61,7 +61,7 @@ export const getTSDataTypeFromFieldType = (field: PrismaDMMF.Field) => {
       type = 'Prisma.JsonValue';
       break;
     case 'Bytes':
-      type = 'Buffer';
+      type = 'Uint8Array';
       break;
   }
 
