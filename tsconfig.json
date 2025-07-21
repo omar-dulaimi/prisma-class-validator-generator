@@ -3,8 +3,9 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es2019",
-    "lib": ["es2019"],
+    "target": "es2022",
+    "lib": ["es2022"],
+    "strict": true,
     "noImplicitAny": true,
     "moduleResolution": "node",
     "declaration": true,
@@ -12,9 +13,11 @@
     "resolveJsonModule": true,
     "outDir": "./lib",
     "rootDir": "./src",
-    "typeRoots": ["src/types.ts"],
     "skipLibCheck": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "exactOptionalPropertyTypes": true
   },
-  "include": ["./src/**/**/*.ts"]
+  "include": ["./src/**/*.ts"],
+  "exclude": ["node_modules", "lib", "package", "tests"]
 }

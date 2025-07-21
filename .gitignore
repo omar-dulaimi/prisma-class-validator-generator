@@ -3,3 +3,5 @@ lib
 package
 npm-debug.log*
 prisma/generated
+coverage/
+tests/generated/

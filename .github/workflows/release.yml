@@ -1,0 +1,82 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+        registry-url: 'https://registry.npmjs.org'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build project
+      run: npm run build
+      
+    - name: Run tests
+      run: npm run test:ci
+      
+    - name: Determine release type and version
+      id: release-info
+      run: |
+        if [[ $GITHUB_REF == refs/tags/* ]]; then
+          # Tagged release
+          echo "release_type=tagged" >> $GITHUB_OUTPUT
+          echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          echo "npm_tag=latest" >> $GITHUB_OUTPUT
+          echo "prerelease=false" >> $GITHUB_OUTPUT
+        else
+          # Auto release from master - use beta
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          BETA_VERSION="${PACKAGE_VERSION}-beta.$(date +%Y%m%d%H%M%S)"
+          echo "release_type=auto" >> $GITHUB_OUTPUT
+          echo "version=v${BETA_VERSION}" >> $GITHUB_OUTPUT
+          echo "npm_tag=beta" >> $GITHUB_OUTPUT
+          echo "prerelease=true" >> $GITHUB_OUTPUT
+          
+          # Update package.json version for beta
+          npm version $BETA_VERSION --no-git-tag-version
+        fi
+        
+    - name: Build package
+      run: ./package.sh
+      
+    - name: Publish to npm
+      run: |
+        cd package
+        npm publish --tag ${{ steps.release-info.outputs.npm_tag }}
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        
+    - name: Create GitHub Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.release-info.outputs.version }}
+        release_name: Release ${{ steps.release-info.outputs.version }}
+        body: |
+          ${{ steps.release-info.outputs.release_type == 'auto' && '🧪 **Beta Release** - Automatically generated from latest master branch' || 'Stable release' }}
+          
+          ## Changes
+          See the [full changelog](https://github.com/omar-dulaimi/prisma-class-validator-generator/compare/v5.0.0...${{ steps.release-info.outputs.version }}) for details.
+        draft: false
+        prerelease: ${{ steps.release-info.outputs.prerelease == 'true' }}
