@@ -119,18 +119,18 @@ if (errors.length > 0) {
 
 | Prisma Version | Generator Version | Status |
 |----------------|-------------------|--------|
-| **v6.x** | **v6.0.0+** | ✅ **Recommended** |
+| **v6.x** | **v5.0.0+** | ✅ **Recommended** |
 | v5.x | v5.0.0 | ✅ Supported |
 | v4.x | v0.2.0 - v4.x | ⚠️ Legacy |
 | v2-3.x | v0.1.x | ❌ Deprecated |
 
-### 🆕 What's New in v6.0.0
+### 🆕 What's New in v5.0.0
 
-- **Prisma 6 Support** - Full compatibility with Prisma 6 features
-- **Uint8Array Support** - Proper handling of Bytes fields as Uint8Array
+- **Prisma 6 Support** - Full compatibility with Prisma 6.12+ features
+- **Uint8Array Support** - Proper handling of Bytes fields as Uint8Array (breaking change from Buffer)
 - **Node.js 18+** - Modern Node.js support (18.18+, 20.9+, 22.11+)
 - **TypeScript 5.8** - Latest TypeScript features and optimizations
-- **Enhanced Testing** - Comprehensive test suite with 95%+ coverage
+- **Enhanced Testing** - Comprehensive test suite with Vitest and 95%+ coverage
 - **Performance Improvements** - Faster generation with optimized AST manipulation
 
 ## 🎯 Generated Output
