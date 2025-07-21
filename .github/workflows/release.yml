@@ -66,17 +66,60 @@ jobs:
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         
+    - name: Generate release notes
+      id: release-notes
+      run: |
+        if [[ "${{ steps.release-info.outputs.release_type }}" == "auto" ]]; then
+          # Beta release
+          cat << 'EOF' >> $GITHUB_OUTPUT
+          title=🧪 Prisma 6 Beta Release
+          body=## 🧪 Beta Release - Prisma 6 Support
+
+          **Try the latest beta with enhanced Prisma 6 support!**
+
+          ```bash
+          npm install prisma-class-validator-generator@beta
+          ```
+
+          ### ✨ What's New in This Beta
+
+          - 🔧 **Prisma 6.12+ Support** - Full compatibility with latest Prisma features
+          - 🛡️ **Uint8Array Support** - Proper handling of Bytes fields (breaking change from Buffer)
+          - 🚀 **Node.js 18+** - Modern Node.js requirements (18.18+, 20.9+, 22.11+)
+          - 📝 **TypeScript 5.8** - Latest TypeScript features and optimizations
+          - 🧪 **Enhanced Testing** - Comprehensive test suite with 95%+ coverage
+          - ⚡ **Performance** - Faster generation with optimized AST manipulation
+
+          ### 🔄 Migration from v5.0.0
+
+          1. Update to Prisma 6.12+: `npm install prisma@latest`
+          2. Install beta: `npm install prisma-class-validator-generator@beta`
+          3. Regenerate models: `npx prisma generate`
+          4. Update any `Buffer` usage to `Uint8Array` if applicable
+
+          ### 🐛 Feedback & Issues
+
+          Please test in development and [report any issues](https://github.com/omar-dulaimi/prisma-class-validator-generator/issues). Your feedback helps us deliver a stable v6.0.0 release!
+
+          **Full Changelog**: [v5.0.0...${{{ steps.release-info.outputs.version }}}](https://github.com/omar-dulaimi/prisma-class-validator-generator/compare/v5.0.0...${{ steps.release-info.outputs.version }})
+          EOF
+        else
+          # Stable release
+          cat << 'EOF' >> $GITHUB_OUTPUT
+          title=${{ steps.release-info.outputs.version }}
+          body=## Changes
+
+          See the [full changelog](https://github.com/omar-dulaimi/prisma-class-validator-generator/compare/v5.0.0...${{ steps.release-info.outputs.version }}) for details.
+          EOF
+        fi
+
     - name: Create GitHub Release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ steps.release-info.outputs.version }}
-        release_name: Release ${{ steps.release-info.outputs.version }}
-        body: |
-          ${{ steps.release-info.outputs.release_type == 'auto' && '🧪 **Beta Release** - Automatically generated from latest master branch' || 'Stable release' }}
-          
-          ## Changes
-          See the [full changelog](https://github.com/omar-dulaimi/prisma-class-validator-generator/compare/v5.0.0...${{ steps.release-info.outputs.version }}) for details.
+        release_name: ${{ steps.release-notes.outputs.title }}
+        body: ${{ steps.release-notes.outputs.body }}
         draft: false
         prerelease: ${{ steps.release-info.outputs.prerelease == 'true' }}
