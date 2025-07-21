@@ -68,6 +68,12 @@ export const getTSDataTypeFromFieldType = (field: PrismaDMMF.Field) => {
   if (field.isList) {
     type = `${type}[]`;
   }
+  
+  // Add null union for optional fields to match Prisma client behavior
+  if (!field.isRequired) {
+    type = `${type} | null`;
+  }
+  
   return type;
 };
 

@@ -1,6 +1,6 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { describe, it, expect, beforeAll } from 'vitest';
 import path from 'path';
 
@@ -52,5 +52,20 @@ describe('Basic Class Validator Generation', () => {
 
     expect(Post).toBeDefined();
     expect(typeof Post).toBe('function');
+  });
+
+  it('should generate optional fields with null union types', async () => {
+    const outputPath = path.resolve(__dirname, 'generated/basic');
+    const userPath = path.join(outputPath, 'models', 'User.model.ts');
+    const postPath = path.join(outputPath, 'models', 'Post.model.ts');
+
+    const userContent = readFileSync(userPath, 'utf-8');
+    const postContent = readFileSync(postPath, 'utf-8');
+
+    // Check that optional fields have null union types
+    expect(userContent).toContain('name?: string | null');
+    expect(postContent).toContain('content?: string | null');
+    expect(postContent).toContain('author?: User | null');
+    expect(postContent).toContain('authorId?: number | null');
   });
 });
