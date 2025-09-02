@@ -66,5 +66,5 @@
     "url": "https://github.com/omar-dulaimi/prisma-class-validator-generator/issues"
   },
   "homepage": "https://github.com/omar-dulaimi/prisma-class-validator-generator#readme",
-  "private": true
+  "private": false
 }
