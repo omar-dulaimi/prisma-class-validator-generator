@@ -80,7 +80,7 @@ describe('Relation Splitting Generation', () => {
     expect(userRelations).toContain('import { Post } from "./"');
 
     // Should have decorators for relations
-    expect(userRelations).toContain('@ApiProperty({ isArray: true })');
+    expect(userRelations).toContain('@ApiProperty({ isArray: true, type: () => Post })');
   });
 
   it('should generate combined User class extending base', () => {

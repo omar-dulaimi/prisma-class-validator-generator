@@ -200,6 +200,10 @@ export const getSwaggerDecoratorByFieldType = (field: PrismaDMMF.Field) => {
     args.push(`enum: Object.values(${field.type})`);
   }
 
+  if (field.relationName) {
+    args.push(`type: () => ${field.type}`);
+  }
+
   return {
     name: 'ApiProperty',
     arguments: args.length > 0 ? [`{ ${args.join(', ')} }`] : [],
