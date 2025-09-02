@@ -32,6 +32,7 @@ describe('Swagger Generation', () => {
     expect(userModel).toContain('type: "string"');
     expect(userModel).toContain('required: false');
     expect(userModel).toContain('isArray: true');
+    expect(userModel).toContain('type: () => Post');
   });
 
   it('should generate Post model with correct Swagger decorators', () => {
