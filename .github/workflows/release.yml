@@ -1,86 +1,67 @@
-name: Release
+name: Semantic Release
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches: [master]
+  workflow_dispatch:
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     permissions:
       contents: write
-      packages: write
-      
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20.x'
-        cache: 'npm'
-        registry-url: 'https://registry.npmjs.org'
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Build project
-      run: npm run build
-      
-    - name: Run tests
-      run: npm run test:ci
-      
-    - name: Build package
-      run: ./package.sh
-      
-    - name: Determine if beta release
-      id: check_beta
-      run: |
-        VERSION=$(node -p "require('./package.json').version")
-        if [[ $VERSION == *"beta"* ]]; then
-          echo "is_beta=true" >> $GITHUB_OUTPUT
-          echo "npm_tag=beta" >> $GITHUB_OUTPUT
-        else
-          echo "is_beta=false" >> $GITHUB_OUTPUT
-          echo "npm_tag=latest" >> $GITHUB_OUTPUT
-        fi
-        echo "version=$VERSION" >> $GITHUB_OUTPUT
-        
-    - name: Publish to NPM
-      run: |
-        cd package
-        npm publish --tag ${{ steps.check_beta.outputs.npm_tag }}
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        
-    - name: Create GitHub Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: ${{ steps.check_beta.outputs.is_beta }}
-        body: |
-          ## What's Changed
-          
-          ${{ steps.check_beta.outputs.is_beta == 'true' && '🧪 **This is a beta release** - Please test thoroughly before using in production.' || '' }}
-          
-          ### ✨ Features in this release
-          
-          - 🔧 **Prisma 6.12+ Support** - Full compatibility with latest Prisma features
-          - 🛡️ **Uint8Array Support** - Proper handling of Bytes fields (breaking change from Buffer)
-          - 🚀 **Node.js 18+** - Modern Node.js requirements (18.18+, 20.9+, 22.11+)
-          - 📝 **TypeScript 5.8** - Latest TypeScript features and optimizations
-          - 🧪 **Enhanced Testing** - Comprehensive test suite with 95%+ coverage
-          - ⚡ **Performance** - Faster generation with optimized AST manipulation
-          
-          For detailed changes, see the [changelog](https://github.com/omar-dulaimi/prisma-class-validator-generator/compare/v5.0.0...${{ github.ref }}).
-          
-          ### Installation
-          ```bash
-          npm install prisma-class-validator-generator@${{ steps.check_beta.outputs.is_beta == 'true' && 'beta' || 'latest' }}
-          ```
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and test
+        run: |
+          npm run build
+          npm run test:type-check
+          npm run test:ci
+
+      - name: Build package
+        run: ./package.sh
+
+      - name: Semantic Release (with npm lifecycle)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm run release
+
+      - name: Commit and push workflow mutations (if any)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Stage docs and common release-mutation files to avoid failing on dirty tree
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A \
+            package.json \
+            package-lock.json \
+            package/package.json \
+            CHANGELOG.md || true
+          # If nothing is staged, skip committing to avoid exit 1 from git commit
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          LAST_TAG=$(git describe --tags --abbrev=0 || echo "latest")
+          git commit -m "chore(ci): commit workflow mutations (version bumps, lockfile) for ${LAST_TAG} [skip ci]"
+          git push origin HEAD:${GITHUB_REF_NAME}
