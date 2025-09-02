@@ -33,23 +33,6 @@ If this tool helps you build better applications, please consider supporting its
 
 Your sponsorship helps maintain and improve this project. Thank you! 🙏
 
-## 🧪 Beta Testing - v6.0.0-beta.1
-
-**Try the latest beta with enhanced Prisma 6 support!**
-
-```bash
-npm install prisma-class-validator-generator@beta
-```
-
-This beta includes **major upgrades for Prisma 6.x compatibility** - bringing full support for the latest Prisma features including proper Uint8Array handling for Bytes fields and modern Node.js requirements. 
-
-**What to test:**
-- ✅ Prisma 6.12+ schema generation
-- ✅ Uint8Array support for Bytes fields  
-- ✅ Complex schemas with enums and relations
-- ✅ TypeScript 5.8+ compatibility
-
-Please test in development and [report any issues](https://github.com/omar-dulaimi/prisma-class-validator-generator/issues). Your feedback helps us deliver a stable v6.0.0 release!
 
 ## ✨ Features
 
@@ -133,27 +116,6 @@ if (errors.length > 0) {
 }
 ```
 
-## 📋 Version Compatibility
-
-| Prisma Version | Generator Version | Maintained |
-|----------------|-------------------|------------|
-| **v6.x** | **v6.0.0-beta.1** | ✅ **Active** |
-| v5.x | v5.0.0 | ❌ No |
-| v4.x | v0.2.0 - v4.x | ❌ No |
-| v2-3.x | v0.1.x | ❌ No |
-
-### 🧪 Beta Release - v6.0.0-beta.1
-
-**Currently in development!** This version brings full Prisma 6 compatibility:
-
-- **Prisma 6 Support** - Full compatibility with Prisma 6.12+ features
-- **Uint8Array Support** - Proper handling of Bytes fields as Uint8Array (breaking change from Buffer)
-- **Node.js 18+** - Modern Node.js support (18.18+, 20.9+, 22.11+)
-- **TypeScript 5.8** - Latest TypeScript features and optimizations
-- **Enhanced Testing** - Comprehensive test suite with Vitest and 95%+ coverage
-- **Performance Improvements** - Faster generation with optimized AST manipulation
-
-> **Note**: This beta version is currently in development. The stable v5.0.0 supports Prisma 5.x.
 
 ## 🎯 Generated Output
 
@@ -250,9 +212,7 @@ generator class_validator {
 | `swagger` | `string` | `"false"` | Add NestJS `@ApiProperty` decorators for Swagger docs |
 | `separateRelationFields` | `string` | `"false"` | Generate separate base and relation classes for flexible DTOs |
 
-### 🌟 New in v6.0.0-beta.1: NestJS & Swagger Integration
-
-#### Swagger Support (`swagger = "true"`)
+### Swagger Support (`swagger = "true"`)
 
 Automatically generates NestJS Swagger decorators alongside class-validator decorators:
 
@@ -275,7 +235,7 @@ export class User {
 }
 ```
 
-#### Relation Field Splitting (`separateRelationFields = "true"`)
+### Relation Field Splitting (`separateRelationFields = "true"`)
 
 Perfect for NestJS DTOs - generates separate classes for maximum flexibility:
 
