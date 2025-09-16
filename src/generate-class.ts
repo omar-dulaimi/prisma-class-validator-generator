@@ -221,9 +221,11 @@ function generateRelationClass(
     }
   });
 
-  generateRelationImportsImport(sourceFile, [
-    ...relationImports,
-  ] as Array<string>);
+  if (relationImports.size > 0) {
+    generateRelationImportsImport(sourceFile, [
+      ...relationImports,
+    ] as Array<string>);
+  }
 
   sourceFile.addClass({
     name: `${model.name}Relations`,
