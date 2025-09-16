@@ -215,11 +215,25 @@ function generateRelationClass(
   }
 
   const relationImports = new Set();
+  let hasSelfRelation = false;
+
   relationFields.forEach((field) => {
-    if (field.relationName && model.name !== field.type) {
-      relationImports.add(field.type);
+    if (field.relationName) {
+      if (model.name !== field.type) {
+        relationImports.add(field.type);
+      } else {
+        hasSelfRelation = true;
+      }
     }
   });
+
+  // For self-relations in the Relations class, import the combined model class
+  if (hasSelfRelation) {
+    sourceFile.addImportDeclaration({
+      moduleSpecifier: `./${model.name}.model`,
+      namedImports: [model.name],
+    });
+  }
 
   if (relationImports.size > 0) {
     generateRelationImportsImport(sourceFile, [
