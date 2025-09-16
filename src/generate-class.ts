@@ -264,6 +264,31 @@ function generateCombinedClass(
     namedImports: [`${model.name}Base`],
   });
 
+  // Add class validator imports for relation fields
+  const validatorImports = [
+    ...new Set(
+      relationFields
+        .map((field) => getDecoratorsImportsByType(field))
+        .flatMap((item) => item),
+    ),
+  ];
+
+  if (validatorImports.length > 0) {
+    generateClassValidatorImport(sourceFile, validatorImports as Array<string>);
+  }
+
+  // Add Swagger imports if enabled
+  if (
+    config.swagger &&
+    relationFields.length > 0 &&
+    shouldImportSwagger(relationFields as PrismaDMMF.Field[])
+  ) {
+    const swaggerImports = getSwaggerImportsByType(
+      relationFields as PrismaDMMF.Field[],
+    );
+    generateSwaggerImport(sourceFile, swaggerImports);
+  }
+
   // Import relation types for the combined class
   const relationImports = new Set();
   relationFields.forEach((field) => {
@@ -293,6 +318,7 @@ function generateCombinedClass(
               hasExclamationToken: field.isRequired,
               hasQuestionToken: !field.isRequired,
               trailingTrivia: '\r\n',
+              decorators: getDecoratorsByFieldType(field, config.swagger),
             };
           },
         ),
