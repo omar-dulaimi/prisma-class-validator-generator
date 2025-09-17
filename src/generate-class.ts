@@ -215,15 +215,31 @@ function generateRelationClass(
   }
 
   const relationImports = new Set();
+  let hasSelfRelation = false;
+
   relationFields.forEach((field) => {
-    if (field.relationName && model.name !== field.type) {
-      relationImports.add(field.type);
+    if (field.relationName) {
+      if (model.name !== field.type) {
+        relationImports.add(field.type);
+      } else {
+        hasSelfRelation = true;
+      }
     }
   });
 
-  generateRelationImportsImport(sourceFile, [
-    ...relationImports,
-  ] as Array<string>);
+  // For self-relations in the Relations class, import the combined model class
+  if (hasSelfRelation) {
+    sourceFile.addImportDeclaration({
+      moduleSpecifier: `./${model.name}.model`,
+      namedImports: [model.name],
+    });
+  }
+
+  if (relationImports.size > 0) {
+    generateRelationImportsImport(sourceFile, [
+      ...relationImports,
+    ] as Array<string>);
+  }
 
   sourceFile.addClass({
     name: `${model.name}Relations`,
@@ -264,6 +280,31 @@ function generateCombinedClass(
     namedImports: [`${model.name}Base`],
   });
 
+  // Add class validator imports for relation fields
+  const validatorImports = [
+    ...new Set(
+      relationFields
+        .map((field) => getDecoratorsImportsByType(field))
+        .flatMap((item) => item),
+    ),
+  ];
+
+  if (validatorImports.length > 0) {
+    generateClassValidatorImport(sourceFile, validatorImports as Array<string>);
+  }
+
+  // Add Swagger imports if enabled
+  if (
+    config.swagger &&
+    relationFields.length > 0 &&
+    shouldImportSwagger(relationFields as PrismaDMMF.Field[])
+  ) {
+    const swaggerImports = getSwaggerImportsByType(
+      relationFields as PrismaDMMF.Field[],
+    );
+    generateSwaggerImport(sourceFile, swaggerImports);
+  }
+
   // Import relation types for the combined class
   const relationImports = new Set();
   relationFields.forEach((field) => {
@@ -293,6 +334,7 @@ function generateCombinedClass(
               hasExclamationToken: field.isRequired,
               hasQuestionToken: !field.isRequired,
               trailingTrivia: '\r\n',
+              decorators: getDecoratorsByFieldType(field, config.swagger),
             };
           },
         ),
