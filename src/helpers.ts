@@ -114,7 +114,7 @@ export const getDecoratorsByFieldType = (
     case 'String':
       decorators.push({
         name: 'IsString',
-        arguments: [],
+        arguments: field.isList ? [`{ each:true }`] : [],
       });
       break;
     case 'Boolean':
@@ -178,7 +178,7 @@ export const getSwaggerDecoratorByFieldType = (field: PrismaDMMF.Field) => {
       args.push('type: "string"', 'description: "Decimal value as string"');
       break;
     case 'Json':
-      args.push('type: "object"');
+      args.push('type: Object');
       break;
     case 'Bytes':
       args.push('type: "string"', 'format: "byte"');
