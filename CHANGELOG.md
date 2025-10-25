@@ -1,3 +1,9 @@
+## [6.1.2](https://github.com/omar-dulaimi/prisma-class-validator-generator/compare/v6.1.1...v6.1.2) (2025-10-25)
+
+### 🐛 Bug Fixes
+
+* swagger API property decorators and formatting ([5b99a36](https://github.com/omar-dulaimi/prisma-class-validator-generator/commit/5b99a36b7ac4aef6e36a6e27c1e4c020f1826d90))
+
 ## [6.1.1](https://github.com/omar-dulaimi/prisma-class-validator-generator/compare/v6.1.0...v6.1.1) (2025-09-17)
 
 ### 🐛 Bug Fixes
