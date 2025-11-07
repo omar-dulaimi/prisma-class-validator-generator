@@ -64,7 +64,14 @@ pnpm add prisma-class-validator-generator
 
 1. Add the generator to your Prisma schema:
 
+> **Heads up:** Keep a Prisma Client generator in the same schema. Both `provider = "prisma-client"` (recommended) and `provider = "prisma-client-js"` are supported.
+
 ```prisma
+generator client {
+  provider = "prisma-client" // or "prisma-client-js"
+  output   = "../generated/prisma-client" // required when using prisma-client
+}
+
 generator class_validator {
   provider = "prisma-class-validator-generator"
   output   = "./generated"  // optional, defaults to ./generated

@@ -1,19 +1,16 @@
-import { exec } from 'child_process';
-import { promisify } from 'util';
 import { existsSync, readFileSync } from 'fs';
 import { describe, it, expect, beforeAll } from 'vitest';
 import path from 'path';
-
-const execAsync = promisify(exec);
+import {
+  ensureGeneratorBuilt,
+  runPrismaGenerate,
+} from './utils/prisma-test-helpers';
 
 describe('Swagger Generation', () => {
   beforeAll(async () => {
-    // Build the generator first
-    await execAsync('npm run build');
-
-    // Generate models for swagger schema
+    await ensureGeneratorBuilt();
     const schemaPath = path.resolve(__dirname, 'schemas/swagger.prisma');
-    await execAsync(`npx prisma generate --schema="${schemaPath}"`);
+    await runPrismaGenerate({ schemaPath });
   }, 60000);
 
   it('should generate models with Swagger decorators when enabled', () => {
@@ -73,12 +70,9 @@ describe('Swagger Generation', () => {
 
 describe('Combined Class with separateRelationFields', () => {
   beforeAll(async () => {
-    // Build the generator first
-    await execAsync('npm run build');
-
-    // Generate models for full-features schema (has both swagger and separateRelationFields)
+    await ensureGeneratorBuilt();
     const schemaPath = path.resolve(__dirname, 'schemas/full-features.prisma');
-    await execAsync(`npx prisma generate --schema="${schemaPath}"`);
+    await runPrismaGenerate({ schemaPath });
   }, 60000);
 
   it('should generate combined class with class-validator and Swagger decorators for relations', () => {

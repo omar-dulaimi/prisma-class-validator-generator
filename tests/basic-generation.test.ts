@@ -1,23 +1,21 @@
-import { exec } from 'child_process';
-import { promisify } from 'util';
 import { existsSync, readFileSync } from 'fs';
 import { describe, it, expect, beforeAll } from 'vitest';
 import path from 'path';
-
-const execAsync = promisify(exec);
+import {
+  ensureGeneratorBuilt,
+  runPrismaGenerate,
+} from './utils/prisma-test-helpers';
 
 describe('Basic Class Validator Generation', () => {
   beforeAll(async () => {
-    // Build the generator first
-    await execAsync('npm run build');
+    await ensureGeneratorBuilt();
   }, 60000);
 
   it('should generate basic models with class validators', async () => {
     const schemaPath = path.resolve(__dirname, 'schemas/basic.prisma');
     const outputPath = path.resolve(__dirname, 'generated/basic');
 
-    // Generate using the basic schema
-    await execAsync(`npx prisma generate --schema="${schemaPath}"`);
+    await runPrismaGenerate({ schemaPath });
 
     // Check if generated files exist
     expect(existsSync(path.join(outputPath, 'models', 'User.model.ts'))).toBe(

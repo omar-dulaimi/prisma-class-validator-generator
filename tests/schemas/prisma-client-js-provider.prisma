@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator class_validator {
+  provider = "node ./lib/generator.js"
+  output   = "../generated/providers/prisma-client-js-class-validator"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./provider-client-js.db"
+}
+
+model User {
+  id    Int    @id @default(autoincrement())
+  email String @unique
+}
