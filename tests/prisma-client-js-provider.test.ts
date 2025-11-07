@@ -15,7 +15,6 @@ const classValidatorOutput = path.resolve(
   'generated/providers/prisma-client-js-class-validator',
 );
 
-
 describe('Prisma Client JS generator provider', () => {
   beforeAll(async () => {
     await ensureGeneratorBuilt();
