@@ -6,6 +6,7 @@ export default defineConfig({
     testTimeout: 300000, // 5 minutes for complex generation tests
     hookTimeout: 60000,  // 1 minute for setup/teardown
     globals: true,
+    setupFiles: ['tests/setup.ts'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],

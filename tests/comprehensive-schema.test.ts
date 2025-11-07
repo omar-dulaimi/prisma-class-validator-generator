@@ -1,23 +1,21 @@
-import { exec } from 'child_process';
-import { promisify } from 'util';
 import { existsSync, readFileSync } from 'fs';
 import { describe, it, expect, beforeAll } from 'vitest';
 import path from 'path';
-
-const execAsync = promisify(exec);
+import {
+  ensureGeneratorBuilt,
+  runPrismaGenerate,
+} from './utils/prisma-test-helpers';
 
 describe('Comprehensive Schema Generation', () => {
   beforeAll(async () => {
-    // Build the generator first
-    await execAsync('npm run build');
+    await ensureGeneratorBuilt();
   }, 60000);
 
   it('should generate comprehensive models with enums and relations', async () => {
     const schemaPath = path.resolve(__dirname, 'schemas/comprehensive.prisma');
     const outputPath = path.resolve(__dirname, 'generated/comprehensive');
 
-    // Generate using the comprehensive schema
-    await execAsync(`npx prisma generate --schema="${schemaPath}"`);
+    await runPrismaGenerate({ schemaPath });
 
     // Check if generated files exist
     expect(existsSync(path.join(outputPath, 'models', 'User.model.ts'))).toBe(

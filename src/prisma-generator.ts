@@ -15,6 +15,11 @@ export interface GeneratorConfig {
   separateRelationFields: boolean;
 }
 
+const SUPPORTED_PRISMA_CLIENT_PROVIDERS = new Set([
+  'prisma-client',
+  'prisma-client-js',
+]);
+
 export async function generate(options: GeneratorOptions) {
   const outputDir = parseEnvValue(options.generator.output as EnvValue);
 
@@ -27,9 +32,15 @@ export async function generate(options: GeneratorOptions) {
   await fs.mkdir(outputDir, { recursive: true });
   await removeDir(outputDir, true);
 
-  const prismaClientProvider = options.otherGenerators.find(
-    (it) => parseEnvValue(it.provider) === 'prisma-client-js',
+  const prismaClientProvider = options.otherGenerators.find((it) =>
+    SUPPORTED_PRISMA_CLIENT_PROVIDERS.has(parseEnvValue(it.provider)),
   );
+
+  if (!prismaClientProvider) {
+    throw new Error(
+      'Prisma Class Validator Generator requires a Prisma Client generator with provider "prisma-client" or "prisma-client-js".',
+    );
+  }
 
   const prismaClientDmmf = await getDMMF({
     datamodel: options.datamodel,

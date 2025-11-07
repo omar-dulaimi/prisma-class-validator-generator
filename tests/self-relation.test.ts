@@ -1,19 +1,16 @@
-import { exec } from 'child_process';
-import { promisify } from 'util';
 import { existsSync, readFileSync } from 'fs';
 import { describe, it, expect, beforeAll } from 'vitest';
 import path from 'path';
-
-const execAsync = promisify(exec);
+import {
+  ensureGeneratorBuilt,
+  runPrismaGenerate,
+} from './utils/prisma-test-helpers';
 
 describe('Self-Relation Generation', () => {
   beforeAll(async () => {
-    // Build the generator first
-    await execAsync('npm run build');
-
-    // Generate models for self-relation schema
+    await ensureGeneratorBuilt();
     const schemaPath = path.resolve(__dirname, 'schemas/self-relation.prisma');
-    await execAsync(`npx prisma generate --schema="${schemaPath}"`);
+    await runPrismaGenerate({ schemaPath });
   }, 60000);
 
   it('should generate UserBase class without self-relations', () => {
