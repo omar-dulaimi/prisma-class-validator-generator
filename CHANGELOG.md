@@ -1,3 +1,9 @@
+## [6.2.0](https://github.com/omar-dulaimi/prisma-class-validator-generator/compare/v6.1.2...v6.2.0) (2025-11-07)
+
+### 🚀 Features
+
+* support prisma-client generator provider ([7b0071f](https://github.com/omar-dulaimi/prisma-class-validator-generator/commit/7b0071fd2734a4c7917a50a08e011ff77cd2c145))
+
 ## [6.1.2](https://github.com/omar-dulaimi/prisma-class-validator-generator/compare/v6.1.1...v6.1.2) (2025-10-25)
 
 ### 🐛 Bug Fixes
