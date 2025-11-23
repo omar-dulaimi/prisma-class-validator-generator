@@ -36,10 +36,13 @@
     "prisma-class-validator-generator"
   ],
   "license": "MIT",
-  "dependencies": {
+  "peerDependencies": {
     "@prisma/client": "^6.19.0",
-    "@prisma/generator-helper": "^6.19.0",
-    "@prisma/internals": "^6.19.0",
+    "prisma": "^6.19.0"
+  },
+  "dependencies": {
+    "@prisma/generator-helper": "^7",
+    "@prisma/internals": "^7",
     "class-validator": "^0.14.2",
     "pluralize": "^8.0.0",
     "prettier": "^3.6.2",
@@ -57,7 +60,6 @@
     "@types/pluralize": "0.0.33",
     "@vitest/coverage-v8": "^4.0.8",
     "conventional-changelog-conventionalcommits": "^9.1.0",
-    "prisma": "^6.19.0",
     "semantic-release": "^25.0.2",
     "typescript": "^5.9.3",
     "vitest": "^4.0.8"
