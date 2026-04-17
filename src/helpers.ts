@@ -219,9 +219,16 @@ export const generateEnumImports = (
   sourceFile: SourceFile,
   fields: PrismaDMMF.Field[],
 ) => {
-  const enumsToImport = fields
-    .filter((field) => field.kind === 'enum')
-    .map((field) => field.type);
+  // Dedupe: models with multiple fields of the same enum type (e.g. a history
+  // table with previousStatus + newStatus both typed to the same enum) would
+  // otherwise produce duplicate named imports and fail to compile.
+  const enumsToImport = Array.from(
+    new Set(
+      fields
+        .filter((field) => field.kind === 'enum')
+        .map((field) => field.type),
+    ),
+  );
 
   if (enumsToImport.length > 0) {
     sourceFile.addImportDeclaration({

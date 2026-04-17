@@ -1,9 +1,11 @@
-import { 
+import {
   getTSDataTypeFromFieldType,
   getDecoratorsByFieldType,
-  getDecoratorsImportsByType
+  getDecoratorsImportsByType,
+  generateEnumImports
 } from '../../src/helpers';
 import { DMMF } from '@prisma/generator-helper';
+import { Project } from 'ts-morph';
 
 describe('helpers', () => {
   describe('getTSDataTypeFromFieldType', () => {
@@ -237,6 +239,91 @@ describe('helpers', () => {
       expect(imports).toContain('IsArray');
       expect(imports).toContain('ValidateNested');
       expect(imports).toContain('IsDefined');
+    });
+  });
+
+  describe('generateEnumImports', () => {
+    const makeSourceFile = () => {
+      const project = new Project({ useInMemoryFileSystem: true });
+      return project.createSourceFile('model.ts', '');
+    };
+
+    test('emits unique enum imports when multiple fields share an enum type', () => {
+      const fields = [
+        {
+          name: 'previousStatus',
+          type: 'ServiceApprovalStatus',
+          kind: 'enum',
+          isRequired: false,
+          isList: false,
+        },
+        {
+          name: 'newStatus',
+          type: 'ServiceApprovalStatus',
+          kind: 'enum',
+          isRequired: true,
+          isList: false,
+        },
+        {
+          name: 'changeReason',
+          type: 'ApprovalChangeReason',
+          kind: 'enum',
+          isRequired: true,
+          isList: false,
+        },
+      ] as unknown as DMMF.Field[];
+
+      const sourceFile = makeSourceFile();
+      generateEnumImports(sourceFile, fields);
+
+      const [decl] = sourceFile.getImportDeclarations();
+      const names = decl.getNamedImports().map((n) => n.getName());
+
+      expect(decl.getModuleSpecifierValue()).toBe('../enums');
+      expect(names).toEqual(['ServiceApprovalStatus', 'ApprovalChangeReason']);
+    });
+
+    test('emits distinct enum imports when each field has a different enum type', () => {
+      const fields = [
+        {
+          name: 'status',
+          type: 'InvoiceStatus',
+          kind: 'enum',
+          isRequired: true,
+          isList: false,
+        },
+        {
+          name: 'rpType',
+          type: 'ResponsiblePartyType',
+          kind: 'enum',
+          isRequired: true,
+          isList: false,
+        },
+      ] as unknown as DMMF.Field[];
+
+      const sourceFile = makeSourceFile();
+      generateEnumImports(sourceFile, fields);
+
+      const [decl] = sourceFile.getImportDeclarations();
+      const names = decl.getNamedImports().map((n) => n.getName());
+      expect(names).toEqual(['InvoiceStatus', 'ResponsiblePartyType']);
+    });
+
+    test('skips the import declaration entirely when no fields are enums', () => {
+      const fields = [
+        {
+          name: 'id',
+          type: 'Int',
+          kind: 'scalar',
+          isRequired: true,
+          isList: false,
+        },
+      ] as unknown as DMMF.Field[];
+
+      const sourceFile = makeSourceFile();
+      generateEnumImports(sourceFile, fields);
+
+      expect(sourceFile.getImportDeclarations()).toHaveLength(0);
     });
   });
 });
