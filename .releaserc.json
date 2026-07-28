@@ -12,18 +12,54 @@
       {
         "preset": "conventionalcommits",
         "releaseRules": [
-          { "type": "feat", "release": "minor" },
-          { "type": "fix", "release": "patch" },
-          { "type": "perf", "release": "patch" },
-          { "type": "revert", "release": "patch" },
-          { "type": "docs", "release": false },
-          { "type": "style", "release": false },
-          { "type": "chore", "release": false },
-          { "type": "refactor", "release": "patch" },
-          { "type": "test", "release": false },
-          { "type": "build", "release": false },
-          { "type": "ci", "release": false },
-          { "scope": "breaking", "release": "major" }
+          {
+            "type": "feat",
+            "release": "minor"
+          },
+          {
+            "type": "fix",
+            "release": "patch"
+          },
+          {
+            "type": "perf",
+            "release": "patch"
+          },
+          {
+            "type": "revert",
+            "release": "patch"
+          },
+          {
+            "type": "docs",
+            "release": false
+          },
+          {
+            "type": "style",
+            "release": false
+          },
+          {
+            "type": "chore",
+            "release": false
+          },
+          {
+            "type": "refactor",
+            "release": "patch"
+          },
+          {
+            "type": "test",
+            "release": false
+          },
+          {
+            "type": "build",
+            "release": false
+          },
+          {
+            "type": "ci",
+            "release": false
+          },
+          {
+            "scope": "breaking",
+            "release": "major"
+          }
         ]
       }
     ],
@@ -33,17 +69,56 @@
         "preset": "conventionalcommits",
         "presetConfig": {
           "types": [
-            { "type": "feat", "section": "🚀 Features" },
-            { "type": "fix", "section": "🐛 Bug Fixes" },
-            { "type": "perf", "section": "⚡ Performance Improvements" },
-            { "type": "revert", "section": "⏪ Reverts" },
-            { "type": "refactor", "section": "♻️ Code Refactoring" },
-            { "type": "docs", "section": "📚 Documentation", "hidden": false },
-            { "type": "style", "section": "💄 Styles", "hidden": true },
-            { "type": "chore", "section": "🔧 Miscellaneous Chores", "hidden": true },
-            { "type": "test", "section": "✅ Tests", "hidden": true },
-            { "type": "build", "section": "🏗️ Build System", "hidden": true },
-            { "type": "ci", "section": "👷 CI/CD", "hidden": true }
+            {
+              "type": "feat",
+              "section": "\ud83d\ude80 Features"
+            },
+            {
+              "type": "fix",
+              "section": "\ud83d\udc1b Bug Fixes"
+            },
+            {
+              "type": "perf",
+              "section": "\u26a1 Performance Improvements"
+            },
+            {
+              "type": "revert",
+              "section": "\u23ea Reverts"
+            },
+            {
+              "type": "refactor",
+              "section": "\u267b\ufe0f Code Refactoring"
+            },
+            {
+              "type": "docs",
+              "section": "\ud83d\udcda Documentation",
+              "hidden": false
+            },
+            {
+              "type": "style",
+              "section": "\ud83d\udc84 Styles",
+              "hidden": true
+            },
+            {
+              "type": "chore",
+              "section": "\ud83d\udd27 Miscellaneous Chores",
+              "hidden": true
+            },
+            {
+              "type": "test",
+              "section": "\u2705 Tests",
+              "hidden": true
+            },
+            {
+              "type": "build",
+              "section": "\ud83c\udfd7\ufe0f Build System",
+              "hidden": true
+            },
+            {
+              "type": "ci",
+              "section": "\ud83d\udc77 CI/CD",
+              "hidden": true
+            }
           ]
         }
       }
@@ -87,8 +162,12 @@
             "path": "package/*.tgz",
             "label": "Package tarball"
           }
-        ]
+        ],
+        "failComment": false,
+        "failTitle": false
       }
     ]
-  ]
+  ],
+  "//": "repositoryUrl is set explicitly: package.json uses npm's `git+https://` form, which @semantic-release/github parses into an empty $owner. Its `fail` step then dies on a GraphQL error that masks whatever actually went wrong.",
+  "repositoryUrl": "https://github.com/omar-dulaimi/prisma-class-validator-generator.git"
 }
