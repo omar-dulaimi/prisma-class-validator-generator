@@ -43,7 +43,14 @@ jobs:
       run: |
         npx prisma generate --schema=tests/schemas/basic.prisma
         npx prisma generate --schema=tests/schemas/comprehensive.prisma
-      
+
+    # Every step above passes an explicit --schema, so none of them ever load
+    # prisma/schema.prisma, the default the README's `npm run start` uses. That
+    # schema was left on Prisma 6 syntax while the fixtures were migrated, and
+    # the documented command failed for a full release with CI green.
+    - name: Run the documented start command
+      run: npm run start
+
   package-test:
     runs-on: ubuntu-latest
     needs: test
@@ -66,11 +73,16 @@ jobs:
         npm run build
         ./package.sh
         
+    # `npm pack --dry-run` reports whatever it finds and exits 0, so on its own
+    # it passed against a package/ that contained no lib/ whatsoever. Assert the
+    # entry point `bin` names is actually in the tarball before believing it.
     - name: Test package integrity
       run: |
+        set -euo pipefail
         cd package
+        test -f lib/generator.js
         npm pack --dry-run
-        
+
     - name: Upload package artifact
       uses: actions/upload-artifact@v4
       with:
