@@ -1,3 +1,10 @@
+## [6.2.1](https://github.com/omar-dulaimi/prisma-class-validator-generator/compare/v6.2.0...v6.2.1) (2026-07-28)
+
+### 🐛 Bug Fixes
+
+* **build:** repair npm run start and stop packaging an empty tarball ([b0303f2](https://github.com/omar-dulaimi/prisma-class-validator-generator/commit/b0303f2dcb27181655f5f90c7e077f97cedd8ee7))
+* **test:** let the suite load generated decorated classes ([46d5809](https://github.com/omar-dulaimi/prisma-class-validator-generator/commit/46d58093389400126a1cfa75db0c80407cd33e7f))
+
 ## [6.2.0](https://github.com/omar-dulaimi/prisma-class-validator-generator/compare/v6.1.2...v6.2.0) (2025-11-07)
 
 ### 🚀 Features
