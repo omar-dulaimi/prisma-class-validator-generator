@@ -11,7 +11,6 @@ generator class_validator {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./test.db"
 }
 
 model User {

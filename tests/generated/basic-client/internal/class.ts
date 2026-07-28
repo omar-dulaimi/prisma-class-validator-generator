@@ -11,66 +11,49 @@
  * Please import the `PrismaClient` class from the `client.ts` file instead.
  */
 
-import * as runtime from "@prisma/client/runtime/library"
+import * as runtime from "@prisma/client/runtime/client"
 import type * as Prisma from "./prismaNamespace"
 
 
 const config: runtime.GetPrismaClientConfig = {
-  "generator": {
-    "name": "client",
-    "provider": {
-      "fromEnvVar": null,
-      "value": "prisma-client"
-    },
-    "output": {
-      "value": "/home/user/projects/prisma-class-validator-generator/tests/generated/basic-client",
-      "fromEnvVar": null
-    },
-    "config": {
-      "engineType": "library"
-    },
-    "binaryTargets": [
-      {
-        "fromEnvVar": null,
-        "value": "debian-openssl-3.0.x",
-        "native": true
-      }
-    ],
-    "previewFeatures": [],
-    "sourceFilePath": "/home/user/projects/prisma-class-validator-generator/tests/schemas/basic.prisma",
-    "isCustomOutput": true
-  },
-  "relativePath": "../../schemas",
-  "clientVersion": "6.19.0",
-  "engineVersion": "2ba551f319ab1df4bc874a89965d8b3641056773",
-  "datasourceNames": [
-    "db"
-  ],
+  "previewFeatures": [],
+  "clientVersion": "7.9.1",
+  "engineVersion": "e922089b7d7502aff4249d5da3420f6fa55fc6ad",
   "activeProvider": "sqlite",
-  "postinstall": false,
-  "inlineDatasources": {
-    "db": {
-      "url": {
-        "fromEnvVar": null,
-        "value": "file:./test.db"
-      }
-    }
-  },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../generated/basic-client\"\n}\n\ngenerator class_validator {\n  provider = \"node ./lib/generator.js\"\n  output   = \"../generated/basic\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = \"file:./test.db\"\n}\n\nmodel User {\n  id    Int     @id @default(autoincrement())\n  email String  @unique\n  name  String?\n  posts Post[]\n}\n\nmodel Post {\n  id        Int      @id @default(autoincrement())\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  title     String\n  content   String?\n  published Boolean  @default(false)\n  viewCount Int      @default(0)\n  author    User?    @relation(fields: [authorId], references: [id])\n  authorId  Int?\n  rating    Float\n}\n",
-  "inlineSchemaHash": "dc5d74797e56dcd5e81c9129b45c8d48be67f1295a7306a203095af133e17cd5",
-  "copyEngine": true,
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../generated/basic-client\"\n}\n\ngenerator class_validator {\n  provider = \"node ./lib/generator.js\"\n  output   = \"../generated/basic\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n}\n\nmodel User {\n  id    Int     @id @default(autoincrement())\n  email String  @unique\n  name  String?\n  posts Post[]\n}\n\nmodel Post {\n  id        Int      @id @default(autoincrement())\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  title     String\n  content   String?\n  published Boolean  @default(false)\n  viewCount Int      @default(0)\n  author    User?    @relation(fields: [authorId], references: [id])\n  authorId  Int?\n  rating    Float\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
     "types": {}
   },
-  "dirname": ""
+  "parameterizationSchema": {
+    "strings": [],
+    "graph": ""
+  }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"email\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":true,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"name\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":false,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"posts\",\"kind\":\"object\",\"isList\":true,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Post\",\"nativeType\":null,\"relationName\":\"PostToUser\",\"relationFromFields\":[],\"relationToFields\":[],\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false},\"Post\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"DateTime\",\"nativeType\":null,\"default\":{\"name\":\"now\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"DateTime\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":true},{\"name\":\"title\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"content\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":false,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"published\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Boolean\",\"nativeType\":null,\"default\":false,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"viewCount\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":0,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"author\",\"kind\":\"object\",\"isList\":false,\"isRequired\":false,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"User\",\"nativeType\":null,\"relationName\":\"PostToUser\",\"relationFromFields\":[\"authorId\"],\"relationToFields\":[\"id\"],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"authorId\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":false,\"isUnique\":false,\"isId\":false,\"isReadOnly\":true,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"rating\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Float\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false}},\"enums\":{},\"types\":{}}")
-config.engineWasm = undefined
-config.compilerWasm = undefined
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"posts\",\"kind\":\"object\",\"type\":\"Post\",\"relationName\":\"PostToUser\"}],\"dbName\":null},\"Post\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"published\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"viewCount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"author\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PostToUser\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"rating\",\"kind\":\"scalar\",\"type\":\"Float\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.parameterizationSchema = {
+  strings: JSON.parse("[\"where\",\"orderBy\",\"cursor\",\"author\",\"posts\",\"_count\",\"User.findUnique\",\"User.findUniqueOrThrow\",\"User.findFirst\",\"User.findFirstOrThrow\",\"User.findMany\",\"data\",\"User.createOne\",\"User.createMany\",\"User.createManyAndReturn\",\"User.updateOne\",\"User.updateMany\",\"User.updateManyAndReturn\",\"create\",\"update\",\"User.upsertOne\",\"User.deleteOne\",\"User.deleteMany\",\"having\",\"_avg\",\"_sum\",\"_min\",\"_max\",\"User.groupBy\",\"User.aggregate\",\"Post.findUnique\",\"Post.findUniqueOrThrow\",\"Post.findFirst\",\"Post.findFirstOrThrow\",\"Post.findMany\",\"Post.createOne\",\"Post.createMany\",\"Post.createManyAndReturn\",\"Post.updateOne\",\"Post.updateMany\",\"Post.updateManyAndReturn\",\"Post.upsertOne\",\"Post.deleteOne\",\"Post.deleteMany\",\"Post.groupBy\",\"Post.aggregate\",\"AND\",\"OR\",\"NOT\",\"id\",\"createdAt\",\"updatedAt\",\"title\",\"content\",\"published\",\"viewCount\",\"authorId\",\"rating\",\"equals\",\"in\",\"notIn\",\"lt\",\"lte\",\"gt\",\"gte\",\"not\",\"contains\",\"startsWith\",\"endsWith\",\"email\",\"name\",\"every\",\"some\",\"none\",\"is\",\"isNot\",\"connectOrCreate\",\"upsert\",\"createMany\",\"set\",\"disconnect\",\"delete\",\"connect\",\"updateMany\",\"deleteMany\",\"increment\",\"decrement\",\"multiply\",\"divide\"]"),
+  graph: "hAEWIAcEAABUACAuAABQADAvAAAHABAwAABQADAxAgAAAAFFAQAAAAFGAQBTACEBAAAAAQAgDQMAAFoAIC4AAFUAMC8AAAMAEDAAAFUAMDECAFEAITJAAFYAITNAAFYAITQBAFIAITUBAFMAITYgAFcAITcCAFEAITgCAFgAITkIAFkAIQMDAAB-ACA1AABbACA4AABbACANAwAAWgAgLgAAVQAwLwAAAwAQMAAAVQAwMQIAAAABMkAAVgAhM0AAVgAhNAEAUgAhNQEAUwAhNiAAVwAhNwIAUQAhOAIAWAAhOQgAWQAhAwAAAAMAIAEAAAQAMAIAAAUAIAcEAABUACAuAABQADAvAAAHABAwAABQADAxAgBRACFFAQBSACFGAQBTACEBAAAABwAgAQAAAAMAIAEAAAABACACBAAAfQAgRgAAWwAgAwAAAAcAIAEAAAsAMAIAAAEAIAMAAAAHACABAAALADACAAABACADAAAABwAgAQAACwAwAgAAAQAgBAQAAHwAIDECAAAAAUUBAAAAAUYBAAAAAQELAAAPACADMQIAAAABRQEAAAABRgEAAAABAQsAABEAMAELAAARADAEBAAAbwAgMQIAZQAhRQEAYgAhRgEAYwAhAgAAAAEAIAsAABQAIAMxAgBlACFFAQBiACFGAQBjACECAAAABwAgCwAAFgAgAgAAAAcAIAsAABYAIAMAAAABACASAAAPACATAAAUACABAAAAAQAgAQAAAAcAIAYFAABqACAYAABrACAZAABuACAaAABtACAbAABsACBGAABbACAGLgAATwAwLwAAHQAQMAAATwAwMQIAOQAhRQEAOwAhRgEAPAAhAwAAAAcAIAEAABwAMBcAAB0AIAMAAAAHACABAAALADACAAABACABAAAABQAgAQAAAAUAIAMAAAADACABAAAEADACAAAFACADAAAAAwAgAQAABAAwAgAABQAgAwAAAAMAIAEAAAQAMAIAAAUAIAoDAABpACAxAgAAAAEyQAAAAAEzQAAAAAE0AQAAAAE1AQAAAAE2IAAAAAE3AgAAAAE4AgAAAAE5CAAAAAEBCwAAJQAgCTECAAAAATJAAAAAATNAAAAAATQBAAAAATUBAAAAATYgAAAAATcCAAAAATgCAAAAATkIAAAAAQELAAAnADABCwAAJwAwAQAAAAcAIAoDAABoACAxAgBlACEyQABhACEzQABhACE0AQBiACE1AQBjACE2IABkACE3AgBlACE4AgBnACE5CABmACECAAAABQAgCwAAKwAgCTECAGUAITJAAGEAITNAAGEAITQBAGIAITUBAGMAITYgAGQAITcCAGUAITgCAGcAITkIAGYAIQIAAAADACALAAAtACACAAAAAwAgCwAALQAgAQAAAAcAIAMAAAAFACASAAAlACATAAArACABAAAABQAgAQAAAAMAIAcFAABcACAYAABdACAZAABgACAaAABfACAbAABeACA1AABbACA4AABbACAMLgAAOAAwLwAANQAQMAAAOAAwMQIAOQAhMkAAOgAhM0AAOgAhNAEAOwAhNQEAPAAhNiAAPQAhNwIAOQAhOAIAPgAhOQgAPwAhAwAAAAMAIAEAADQAMBcAADUAIAMAAAADACABAAAEADACAAAFACAMLgAAOAAwLwAANQAQMAAAOAAwMQIAOQAhMkAAOgAhM0AAOgAhNAEAOwAhNQEAPAAhNiAAPQAhNwIAOQAhOAIAPgAhOQgAPwAhDQUAAEEAIBgAAEIAIBkAAEEAIBoAAEEAIBsAAEEAIDoCAAAAATsCAAAABDwCAAAABD0CAAAAAT4CAAAAAT8CAAAAAUACAAAAAUECAE4AIQsFAABBACAaAABNACAbAABNACA6QAAAAAE7QAAAAAQ8QAAAAAQ9QAAAAAE-QAAAAAE_QAAAAAFAQAAAAAFBQABMACEOBQAAQQAgGgAASwAgGwAASwAgOgEAAAABOwEAAAAEPAEAAAAEPQEAAAABPgEAAAABPwEAAAABQAEAAAABQQEASgAhQgEAAAABQwEAAAABRAEAAAABDgUAAEQAIBoAAEkAIBsAAEkAIDoBAAAAATsBAAAABTwBAAAABT0BAAAAAT4BAAAAAT8BAAAAAUABAAAAAUEBAEgAIUIBAAAAAUMBAAAAAUQBAAAAAQUFAABBACAaAABHACAbAABHACA6IAAAAAFBIABGACENBQAARAAgGAAARQAgGQAARAAgGgAARAAgGwAARAAgOgIAAAABOwIAAAAFPAIAAAAFPQIAAAABPgIAAAABPwIAAAABQAIAAAABQQIAQwAhDQUAAEEAIBgAAEIAIBkAAEIAIBoAAEIAIBsAAEIAIDoIAAAAATsIAAAABDwIAAAABD0IAAAAAT4IAAAAAT8IAAAAAUAIAAAAAUEIAEAAIQ0FAABBACAYAABCACAZAABCACAaAABCACAbAABCACA6CAAAAAE7CAAAAAQ8CAAAAAQ9CAAAAAE-CAAAAAE_CAAAAAFACAAAAAFBCABAACEIOgIAAAABOwIAAAAEPAIAAAAEPQIAAAABPgIAAAABPwIAAAABQAIAAAABQQIAQQAhCDoIAAAAATsIAAAABDwIAAAABD0IAAAAAT4IAAAAAT8IAAAAAUAIAAAAAUEIAEIAIQ0FAABEACAYAABFACAZAABEACAaAABEACAbAABEACA6AgAAAAE7AgAAAAU8AgAAAAU9AgAAAAE-AgAAAAE_AgAAAAFAAgAAAAFBAgBDACEIOgIAAAABOwIAAAAFPAIAAAAFPQIAAAABPgIAAAABPwIAAAABQAIAAAABQQIARAAhCDoIAAAAATsIAAAABTwIAAAABT0IAAAAAT4IAAAAAT8IAAAAAUAIAAAAAUEIAEUAIQUFAABBACAaAABHACAbAABHACA6IAAAAAFBIABGACECOiAAAAABQSAARwAhDgUAAEQAIBoAAEkAIBsAAEkAIDoBAAAAATsBAAAABTwBAAAABT0BAAAAAT4BAAAAAT8BAAAAAUABAAAAAUEBAEgAIUIBAAAAAUMBAAAAAUQBAAAAAQs6AQAAAAE7AQAAAAU8AQAAAAU9AQAAAAE-AQAAAAE_AQAAAAFAAQAAAAFBAQBJACFCAQAAAAFDAQAAAAFEAQAAAAEOBQAAQQAgGgAASwAgGwAASwAgOgEAAAABOwEAAAAEPAEAAAAEPQEAAAABPgEAAAABPwEAAAABQAEAAAABQQEASgAhQgEAAAABQwEAAAABRAEAAAABCzoBAAAAATsBAAAABDwBAAAABD0BAAAAAT4BAAAAAT8BAAAAAUABAAAAAUEBAEsAIUIBAAAAAUMBAAAAAUQBAAAAAQsFAABBACAaAABNACAbAABNACA6QAAAAAE7QAAAAAQ8QAAAAAQ9QAAAAAE-QAAAAAE_QAAAAAFAQAAAAAFBQABMACEIOkAAAAABO0AAAAAEPEAAAAAEPUAAAAABPkAAAAABP0AAAAABQEAAAAABQUAATQAhDQUAAEEAIBgAAEIAIBkAAEEAIBoAAEEAIBsAAEEAIDoCAAAAATsCAAAABDwCAAAABD0CAAAAAT4CAAAAAT8CAAAAAUACAAAAAUECAE4AIQYuAABPADAvAAAdABAwAABPADAxAgA5ACFFAQA7ACFGAQA8ACEHBAAAVAAgLgAAUAAwLwAABwAQMAAAUAAwMQIAUQAhRQEAUgAhRgEAUwAhCDoCAAAAATsCAAAABDwCAAAABD0CAAAAAT4CAAAAAT8CAAAAAUACAAAAAUECAEEAIQs6AQAAAAE7AQAAAAQ8AQAAAAQ9AQAAAAE-AQAAAAE_AQAAAAFAAQAAAAFBAQBLACFCAQAAAAFDAQAAAAFEAQAAAAELOgEAAAABOwEAAAAFPAEAAAAFPQEAAAABPgEAAAABPwEAAAABQAEAAAABQQEASQAhQgEAAAABQwEAAAABRAEAAAABA0cAAAMAIEgAAAMAIEkAAAMAIA0DAABaACAuAABVADAvAAADABAwAABVADAxAgBRACEyQABWACEzQABWACE0AQBSACE1AQBTACE2IABXACE3AgBRACE4AgBYACE5CABZACEIOkAAAAABO0AAAAAEPEAAAAAEPUAAAAABPkAAAAABP0AAAAABQEAAAAABQUAATQAhAjogAAAAAUEgAEcAIQg6AgAAAAE7AgAAAAU8AgAAAAU9AgAAAAE-AgAAAAE_AgAAAAFAAgAAAAFBAgBEACEIOggAAAABOwgAAAAEPAgAAAAEPQgAAAABPggAAAABPwgAAAABQAgAAAABQQgAQgAhCQQAAFQAIC4AAFAAMC8AAAcAEDAAAFAAMDECAFEAIUUBAFIAIUYBAFMAIUoAAAcAIEsAAAcAIAAAAAAAAAFPQAAAAAEBTwEAAAABAU8BAAAAAQFPIAAAAAEFTwIAAAABVQIAAAABVgIAAAABVwIAAAABWAIAAAABBU8IAAAAAVUIAAAAAVYIAAAAAVcIAAAAAVgIAAAAAQVPAgAAAAFVAgAAAAFWAgAAAAFXAgAAAAFYAgAAAAEHEgAAgAEAIBMAAIMBACBMAACBAQAgTQAAggEAIFAAAAcAIFEAAAcAIFIAAAEAIAMSAACAAQAgTAAAgQEAIFIAAAEAIAAAAAAACxIAAHAAMBMAAHUAMEwAAHEAME0AAHIAME4AAHMAIE8AAHQAMFAAAHQAMFEAAHQAMFIAAHQAMFMAAHYAMFQAAHcAMAgxAgAAAAEyQAAAAAEzQAAAAAE0AQAAAAE1AQAAAAE2IAAAAAE3AgAAAAE5CAAAAAECAAAABQAgEgAAewAgAwAAAAUAIBIAAHsAIBMAAHoAIAELAAB_ADANAwAAWgAgLgAAVQAwLwAAAwAQMAAAVQAwMQIAAAABMkAAVgAhM0AAVgAhNAEAUgAhNQEAUwAhNiAAVwAhNwIAUQAhOAIAWAAhOQgAWQAhAgAAAAUAIAsAAHoAIAIAAAB4ACALAAB5ACAMLgAAdwAwLwAAeAAQMAAAdwAwMQIAUQAhMkAAVgAhM0AAVgAhNAEAUgAhNQEAUwAhNiAAVwAhNwIAUQAhOAIAWAAhOQgAWQAhDC4AAHcAMC8AAHgAEDAAAHcAMDECAFEAITJAAFYAITNAAFYAITQBAFIAITUBAFMAITYgAFcAITcCAFEAITgCAFgAITkIAFkAIQgxAgBlACEyQABhACEzQABhACE0AQBiACE1AQBjACE2IABkACE3AgBlACE5CABmACEIMQIAZQAhMkAAYQAhM0AAYQAhNAEAYgAhNQEAYwAhNiAAZAAhNwIAZQAhOQgAZgAhCDECAAAAATJAAAAAATNAAAAAATQBAAAAATUBAAAAATYgAAAAATcCAAAAATkIAAAAAQQSAABwADBMAABxADBOAABzACBSAAB0ADAAAgQAAH0AIEYAAFsAIAgxAgAAAAEyQAAAAAEzQAAAAAE0AQAAAAE1AQAAAAE2IAAAAAE3AgAAAAE5CAAAAAEDMQIAAAABRQEAAAABRgEAAAABAgAAAAEAIBIAAIABACADAAAABwAgEgAAgAEAIBMAAIQBACAFAAAABwAgCwAAhAEAIDECAGUAIUUBAGIAIUYBAGMAIQMxAgBlACFFAQBiACFGAQBjACECBAYCBQADAQMIAQEECQAAAAAFBQAIGAAJGQAKGgALGwAMAAAAAAAFBQAIGAAJGQAKGgALGwAMAQMqAQEDMAEFBQARGAASGQATGgAUGwAVAAAAAAAFBQARGAASGQATGgAUGwAVBgIBBwoBCAwBCQ0BCg4BDBABDRIEDhMFDxUBEBcEERgGFBkBFRoBFhsEHB4HHR8NHiACHyECICICISMCIiQCIyYCJCgEJSkOJiwCJy4EKC8PKTECKjICKzMELDYQLTcW"
+}
 
+async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
+  const { Buffer } = await import('node:buffer')
+  const wasmArray = Buffer.from(wasmBase64, 'base64')
+  return new WebAssembly.Module(wasmArray)
+}
+
+config.compilerWasm = {
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.sqlite.js"),
+
+  getQueryCompilerWasmModule: async () => {
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.sqlite.wasm-base64.js")
+    return await decodeBase64AsWasm(wasm)
+  },
+
+  importName: "./query_compiler_fast_bg.js"
+}
 
 
 
@@ -84,12 +67,14 @@ export interface PrismaClientConstructor {
    * Type-safe database client for TypeScript
    * @example
    * ```
-   * const prisma = new PrismaClient()
+   * const prisma = new PrismaClient({
+   *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+   * })
    * // Fetch zero or more Users
    * const users = await prisma.user.findMany()
    * ```
    * 
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+   * Read more in our [docs](https://pris.ly/d/client).
    */
 
   new <
@@ -97,7 +82,7 @@ export interface PrismaClientConstructor {
     LogOpts extends LogOptions<Options> = LogOptions<Options>,
     OmitOpts extends Prisma.PrismaClientOptions['omit'] = Options extends { omit: infer U } ? U : Prisma.PrismaClientOptions['omit'],
     ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
-  >(options?: Prisma.Subset<Options, Prisma.PrismaClientOptions> ): PrismaClient<LogOpts, OmitOpts, ExtArgs>
+  >(options: Prisma.PrismaClientConstructorArgs<Options>): PrismaClient<LogOpts, OmitOpts, ExtArgs>
 }
 
 /**
@@ -106,12 +91,14 @@ export interface PrismaClientConstructor {
  * Type-safe database client for TypeScript
  * @example
  * ```
- * const prisma = new PrismaClient()
+ * const prisma = new PrismaClient({
+ *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+ * })
  * // Fetch zero or more Users
  * const users = await prisma.user.findMany()
  * ```
  * 
- * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+ * Read more in our [docs](https://pris.ly/d/client).
  */
 
 export interface PrismaClient<
@@ -140,7 +127,7 @@ export interface PrismaClient<
    * const result = await prisma.$executeRaw`UPDATE User SET cool = ${true} WHERE email = ${'user@email.com'};`
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<number>;
 
@@ -152,7 +139,7 @@ export interface PrismaClient<
    * const result = await prisma.$executeRawUnsafe('UPDATE User SET cool = $1 WHERE email = $2 ;', true, 'user@email.com')
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<number>;
 
@@ -163,7 +150,7 @@ export interface PrismaClient<
    * const result = await prisma.$queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'user@email.com'};`
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<T>;
 
@@ -175,7 +162,7 @@ export interface PrismaClient<
    * const result = await prisma.$queryRawUnsafe('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'user@email.com')
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
 
@@ -191,12 +178,11 @@ export interface PrismaClient<
    * ])
    * ```
    * 
-   * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
+   * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
    */
-  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): runtime.Types.Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): runtime.Types.Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
   $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => runtime.Types.Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): runtime.Types.Utils.JsPromise<R>
-
 
   $extends: runtime.Types.Extensions.ExtendsHook<"extends", Prisma.TypeMapCb<OmitOpts>, ExtArgs, runtime.Types.Utils.Call<Prisma.TypeMapCb<OmitOpts>, {
     extArgs: ExtArgs
@@ -223,7 +209,6 @@ export interface PrismaClient<
   get post(): Prisma.PostDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
-export function getPrismaClientClass(dirname: string): PrismaClientConstructor {
-  config.dirname = dirname
+export function getPrismaClientClass(): PrismaClientConstructor {
   return runtime.getPrismaClient(config) as unknown as PrismaClientConstructor
 }
