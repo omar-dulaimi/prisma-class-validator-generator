@@ -2,6 +2,13 @@ node_modules
 lib
 package
 npm-debug.log*
-prisma/generated
 coverage/
-tests/generated/generated/
+
+# Generator output. Every one of these is rebuilt from the schemas in this repo
+# by `npm run start` or `npm test`, nothing in src/, tests/ or the published
+# tarball reads them, and CI regenerates them on every push. Tracking them only
+# gives contributors a diff to accidentally commit and lets the copy in git rot
+# out of step with the generator while CI stays green.
+/generated/
+prisma/generated/
+tests/generated/
